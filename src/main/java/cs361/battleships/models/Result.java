@@ -10,6 +10,10 @@ public class Result {
 		return res;
 	}
 
+	//public Result(int x, char y){
+	//	sq = new Square(x,y);
+	//}
+
 	public void setResult(AtackStatus result) {
 		res = result;
 	}

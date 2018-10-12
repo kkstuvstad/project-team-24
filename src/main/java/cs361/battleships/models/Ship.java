@@ -53,6 +53,8 @@ public class Ship {
 		return numHits;
 	}
 
+	public void incNumHits(){ numHits++;}
+
 	public void setOccupiedSquares(List<Square> occupiedSquares) {
 		this.occupiedSquares = occupiedSquares;
 	}

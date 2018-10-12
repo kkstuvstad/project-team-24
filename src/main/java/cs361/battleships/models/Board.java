@@ -1,6 +1,7 @@
 package cs361.battleships.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import controllers.AttackGameAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,8 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Board() {
+		boardShips = new ArrayList<>(3);
+		attacks = new ArrayList<>(100);
 		length = 10;
 		width = 10;
 	}
@@ -58,8 +61,74 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Result attack(int x, char y) {
+
 		//TODO Implement
-		return null;
+
+		Result attack = new Result(x,y);
+		AttackStatus status = null;
+		Ship attackedShip = null;
+
+		//Check if HIT
+		//Loop the ships
+		for(int i = 0;i<boardShips.size();i++){
+			//Loop the occupied square of ships
+			for(int j=0;j<boardShips.get(i).getOccupiedSquares().size();j++){
+				if(boardShips.get(i).getOccupiedSquares().get(j).getRow() == x && boardShips.get(i).getOccupiedSquares().get(j).getColumn() == y){
+					status = AttackStatus.HIT;
+					//Set ship for the result at this point
+					attackedShip = boardShips.get(i);
+				}
+			}
+		}
+
+		//Check if the attack already exist
+		for (int i = 0;i<attacks.size();i++){
+			if(attacks.get(i).getLocation().getColumn() == y && attacks.get(i).getLocation().getRow() == x){
+				status = AttackStatus.INVALID;
+			}
+		}
+
+		//Then Check for Sink
+		if(status == AttackStatus.HIT){
+			attackedShip.incNumHits();
+			if(attackedShip.getNumHits() >= attackedShip.getLength()){
+				status = AttackStatus.SUNK;
+			}
+		}
+
+
+		//Then Check for surrender
+
+		if(status == AttackStatus.SUNK){
+			int sunkCount = 0;
+			for(int i = 0; i<boardShips.size();i++){
+				if(boardShips.get(i).getNumHits() >= boardShips.get(i).getLength()) {
+					sunkCount++;
+				}
+			}
+			if(sunkCount == boardShips.size()){
+				status = AttackStatus.SURRENDER;
+			}
+		}
+
+		//If not sink, not surrender, not hit, assume it is miss
+
+		if(status == null){
+			status = AttackStatus.MISS;
+		}
+
+
+		//Check if the attack is out of grid
+		if(x > width || (int)(y-'A') >= length){
+			status = AttackStatus.INVALID;
+		}
+		System.out.print(x + " " + y + ": " + status);
+		System.out.print("\n");
+		attack.setResult(status);
+		attack.setShip(attackedShip);
+		attacks.add(attack);
+		return attack;
+
 	}
 
 	public List<Ship> getShips() {

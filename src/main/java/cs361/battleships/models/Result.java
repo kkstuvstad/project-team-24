@@ -6,15 +6,17 @@ public class Result {
 	private Ship ship;
 	private Square sq;
 
-	public Result(int x, char y){
-		sq = new Square(x,y);
-	}
 
 	public AttackStatus getResult() {
 		return res;
 	}
 
-	public void setResult(AttackStatus result) {
+
+	//public Result(int x, char y){
+	//	sq = new Square(x,y);
+	//}
+
+	public void setResult(AtackStatus result) {
 		res = result;
 	}
 

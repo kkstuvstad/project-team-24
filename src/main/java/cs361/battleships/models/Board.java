@@ -78,6 +78,7 @@ public class Board {
 		Ship attackedShip = null;
 		//default status is miss
 		attack.setResult(AtackStatus.MISS);
+		attack.setLocation(new Square(x,y));
 		//make sure ships are set
 		if(boardShips.size() != 3){
 			attack.setResult(AtackStatus.INVALID);

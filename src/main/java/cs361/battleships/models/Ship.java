@@ -71,6 +71,8 @@ public class Ship {
 		this.numHits = numHits;
 	}
 
+	public void incNumHits() { this.numHits++; }
+
 	public void setShipName(String shipName) {
 		this.shipName = shipName;
 	}

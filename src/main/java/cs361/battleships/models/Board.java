@@ -1,26 +1,35 @@
 package cs361.battleships.models;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import controllers.AttackGameAction;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
+
 	@JsonProperty private List<Ship> boardShips;
 	@JsonProperty private List<Result> attacks;
 	private int sunkShips;
+
+
+
 	/*
    DO NOT change the signature of this method. It is used by the grading scripts.
     */
 	public Board() {
+
 		boardShips = new ArrayList<>();
 		attacks = new ArrayList<>();
 		sunkShips = 0;
+
 	}
 
 	/*
    DO NOT change the signature of this method. It is used by the grading scripts.
     */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
+
 		//you can only place ships when there are two or less on the board
 		if (boardShips.size() > 2){
 			return false;
@@ -67,6 +76,7 @@ public class Board {
 			}
 		}
 
+
 		boardShips.add(ship);
 		return true;
 	}
@@ -95,6 +105,7 @@ public class Board {
 				return attack;
 			}
 		}
+
 		//Check if HIT
 		//Loop the ships
 		for(int i = 0;i<boardShips.size();i++){
@@ -107,6 +118,8 @@ public class Board {
 				}
 			}
 		}
+
+
 
 		//Then Check for Sink
 		if(attack.getResult() == AtackStatus.HIT){

@@ -2,15 +2,13 @@ package cs361.battleships.models;
 
 public class Result {
 
-	private AttackStatus res;
+	private AtackStatus res;
 	private Ship ship;
 	private Square sq;
 
-
-	public AttackStatus getResult() {
+	public AtackStatus getResult() {
 		return res;
 	}
-
 
 	//public Result(int x, char y){
 	//	sq = new Square(x,y);

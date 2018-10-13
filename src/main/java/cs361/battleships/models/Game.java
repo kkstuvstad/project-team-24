@@ -7,7 +7,7 @@ import java.util.List;
 
 import java.util.Random;
 
-import static cs361.battleships.models.AttackStatus.*;
+import static cs361.battleships.models.AtackStatus.*;
 
 public class Game {
 

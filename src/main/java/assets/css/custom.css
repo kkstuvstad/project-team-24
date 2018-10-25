@@ -17,7 +17,7 @@
 }
 
 td:hover {
-    background-color: light gray;
+    background-color: gray;
 }
 
 .placed {
@@ -38,18 +38,4 @@ td:hover {
 
 .miss {
     background-color: blue;
-}
-
-.errorMsg {
-    background-color: yellow;
-    border: 2px solid black;
-    height: 400px;
-    width: 800px;
-    padding: 20px;
-}
-
-.header {
-    color: blue;
-    font: Arial Black;
-    font-weight: bold;
 }

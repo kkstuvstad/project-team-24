@@ -1,39 +1,38 @@
 package cs361.battleships.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.ArrayList;
+import com.google.common.collect.Sets;
+import com.mchange.v1.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 public class Ship {
 
+	@JsonProperty private String kind;
 	@JsonProperty private List<Square> occupiedSquares;
-	@JsonProperty private String shipName;
-	private int length;
-	private int numHits;
-
+	@JsonProperty private int size;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
 	}
 	
 	public Ship(String kind) {
-		numHits = 0;
-		if (kind.equals("MINESWEEPER")){
-			occupiedSquares = new ArrayList<>(2);
-			length = 2;
-			shipName = "MINESWEEPER";
-		}
-		else if (kind.equals("DESTROYER")) {
-			occupiedSquares = new ArrayList<>(3);
-			length = 3;
-			shipName = "DESTROYER";
-		}
-		else if (kind.equals("BATTLESHIP")){
-			occupiedSquares = new ArrayList<>(4);
-			length = 4;
-			shipName = "BATTLESHIP";
+		this();
+		this.kind = kind;
+		switch(kind) {
+			case "MINESWEEPER":
+				size = 2;
+				break;
+			case "DESTROYER":
+				size = 3;
+				break;
+			case "BATTLESHIP":
+				size = 4;
+				break;
 		}
 	}
 
@@ -41,35 +40,78 @@ public class Ship {
 		return occupiedSquares;
 	}
 
-	public String getShipName() {
-		return shipName;
+	public void place(char col, int row, boolean isVertical) {
+		for (int i=0; i<size; i++) {
+			if (isVertical) {
+				occupiedSquares.add(new Square(row+i, col));
+			} else {
+				occupiedSquares.add(new Square(row, (char) (col + i)));
+			}
+		}
 	}
 
-	public int getLength() {
-		return length;
+	public boolean overlaps(Ship other) {
+		Set<Square> thisSquares = Set.copyOf(getOccupiedSquares());
+		Set<Square> otherSquares = Set.copyOf(other.getOccupiedSquares());
+		Sets.SetView<Square> intersection = Sets.intersection(thisSquares, otherSquares);
+		return intersection.size() != 0;
 	}
 
-	public int getNumHits() {
-		return numHits;
+	public boolean isAtLocation(Square location) {
+		return getOccupiedSquares().stream().anyMatch(s -> s.equals(location));
 	}
 
-	public void setOccupiedSquares(List<Square> occupiedSquares) {
-		this.occupiedSquares = occupiedSquares;
+	public String getKind() {
+		return kind;
 	}
 
-	public void setOccupiedSquare(Square sq){
-		this.occupiedSquares.add(sq);
+	public Result attack(int x, char y) {
+		var attackedLocation = new Square(x, y);
+		var square = getOccupiedSquares().stream().filter(s -> s.equals(attackedLocation)).findFirst();
+		if (!square.isPresent()) {
+			return new Result(attackedLocation);
+		}
+		var attackedSquare = square.get();
+		if (attackedSquare.isHit()) {
+			var result = new Result(attackedLocation);
+			result.setResult(AtackStatus.INVALID);
+			return result;
+		}
+		attackedSquare.hit();
+		var result = new Result(attackedLocation);
+		result.setShip(this);
+		if (isSunk()) {
+			result.setResult(AtackStatus.SUNK);
+		} else {
+			result.setResult(AtackStatus.HIT);
+		}
+		return result;
 	}
 
-	public void setLength(int length) {
-		this.length = length;
+	@JsonIgnore
+	public boolean isSunk() {
+		return getOccupiedSquares().stream().allMatch(s -> s.isHit());
 	}
 
-	public void setNumHits(int numHits) {
-		this.numHits = numHits;
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Ship)) {
+			return false;
+		}
+		var otherShip = (Ship) other;
+
+		return this.kind.equals(otherShip.kind)
+				&& this.size == otherShip.size
+				&& this.occupiedSquares.equals(otherShip.occupiedSquares);
 	}
 
-	public void setShipName(String shipName) {
-		this.shipName = shipName;
+	@Override
+	public int hashCode() {
+		return 33 * kind.hashCode() + 23 * size + 17 * occupiedSquares.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return kind + occupiedSquares.toString();
 	}
 }

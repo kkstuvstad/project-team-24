@@ -72,7 +72,7 @@ td:hover {
 .header {
     color: blue;
     font: Arial;
-    font-weight: bold;
+    font-weight: 900;
     text-align: center;
  }
 
@@ -94,7 +94,9 @@ td:hover {
  }
 
  .individualTable{
-    margin:10px;
+    padding:10px;
+    margin-right 5px;
+    margin-left: 5px;
     display:flex;
     flex-flow:column wrap;
  }
@@ -110,11 +112,17 @@ td:hover {
 
 .gameTitle{
     margin-left:45%;
+    text-shadow:
+        		-1px -1px 0 #000,
+        		1px -1px 0 #000,
+        		-1px 1px 0 #000,
+        		1px 1px 0 #000;
+        		font-weight: bold;
 }
 
 .container{
     padding:0px;
-    margin:0px;
+    margin: 0px;
  }
 
  footer{
@@ -145,10 +153,11 @@ td:hover {
  }
 
 .shipPicture{
-
+    margin-top: 5px;
+    margin-left:20%;
 }
 
  .shipPicture:hover{
-    border: 5px solid grey;
+    border: 4px solid grey;
     cursor:pointer;
  }

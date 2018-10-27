@@ -26,8 +26,10 @@ function markHits(board, elementId, surrenderText) {
             className = "hit";
         else if (attack.result === "SUNK")
             className = "sink"
-        else if (attack.result === "SURRENDER")
+        else if (attack.result === "SURRENDER"){
+            className = "sink"
             alert(surrenderText);
+        }
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
     });
 }
@@ -105,7 +107,7 @@ function cellClick() {
         sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
             game = data;
             redrawGrid();
-        })
+        });
     }
 }
 

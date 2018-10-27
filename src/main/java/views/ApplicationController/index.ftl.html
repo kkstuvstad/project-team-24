@@ -2,11 +2,14 @@
 <@layout.myLayout "Home page">    
 
 <div class="gameContainer">
+    <div class="containerGameTitle">
 <h1>The Battleship game</h1>
+    </div>
 
-<h2>Enemy Board</h2>
+
 <div class="playerTables">
     <div class="individualTable">
+        <h2>Enemy Board</h2>
         <table id="opponent" class="battleGrid">
         </table>
     </div>
@@ -20,9 +23,10 @@
             <li><button id="place_minesweeper">Place Minesweeper</button></li>
             <li><button id="place_destroyer">Place Destroyer</button></li>
             <li><button id="place_battleship">Place Battleship</button></li>
-            <li><input type="checkbox" id="is_vertical">Vertical</input></li>
         </ul>
+        <input type="checkbox" id="is_vertical"></input>
     </div>
+
 </div>
 
 </div>
@@ -30,6 +34,17 @@
 <script type="text/javascript" src="/assets/game.js"></script>
 <script>
     initGame();
+    document.onkeydown = function(event){
+        var kbCode = event.keyCode;
+        if(kbCode==38 || kbCode == 40){
+            var vertical_box = document.getElementById("is_vertical");
+            vertical_box.checked = true;
+        }
+        if(kbCode==37 || kbCode == 39){
+            var vertical_box = document.getElementById("is_vertical");
+            vertical_box.checked = false;
+        }
+    }
 </script>
 
 </@layout.myLayout>

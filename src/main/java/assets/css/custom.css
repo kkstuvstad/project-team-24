@@ -137,3 +137,16 @@ td:hover {
  #is_vertical{
     visibility:hidden;
  }
+
+ .shipPlacementPanel{
+    display:flex;
+    flex-flow:column wrap;
+ }
+
+.shipPicture{
+
+}
+
+ .shipPicture:hover{
+    border: 5px solid grey;
+ }

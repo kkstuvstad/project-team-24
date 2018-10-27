@@ -12,6 +12,12 @@
         <h2>Enemy Board</h2>
         <table id="opponent" class="battleGrid">
         </table>
+        <div>
+            ↑ or ↓ : place ship vertically.
+        </div>
+        <div>
+            ← or → : place ship horizontally.
+        </div>
     </div>
 
     <div class="individualTable">
@@ -19,11 +25,26 @@
         <table id="player" class="battleGrid">
         </table>
 
-        <ul>
-            <li><button id="place_minesweeper">Place Minesweeper</button></li>
-            <li><button id="place_destroyer">Place Destroyer</button></li>
-            <li><button id="place_battleship">Place Battleship</button></li>
-        </ul>
+        <div class="shipPlacementPanel">
+            <div class="shipPicture" id="place_minesweeper">
+                <img src="https://i.imgur.com/nfQDEHW.jpg" height="30px" weight="30px"></img>
+                <div>Place minesweeper</div>
+            </div>
+            <div class="shipPicture" id="place_destroyer">
+                <img src="https://i.imgur.com/Qq26Eek.jpg" height="30px" weight="30px"></img>
+                <div>Place destroyer</div>
+            </div>
+            <div class="shipPicture" id="place_battleship">
+                <img src="https://i.imgur.com/JhXKWWm.jpg" height="30px" weight="30px"></img>
+                <div>Place battleship</div>
+            </div>
+        </div>
+
+
+        </div>
+        <div class="shipPlacementPanel">
+
+
         <input type="checkbox" id="is_vertical"></input>
     </div>
 

@@ -59,7 +59,7 @@ td:hover {
     background-color: blue;
 }
 
-.error {
+.alert alert-danger {
     background-color: yellow;
     border: 2px solid black;
     height: 400px;

@@ -2,7 +2,10 @@
 -------------------------------------------------- */
 
 body{
-    background:url(https://images.unsplash.com/photo-1501767329646-f8a78149195c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=09405f519c8c20810fc9fd5dee459030&auto=format&fit=crop&w=1050&q=80);
+    padding:0px;
+    margin:0px;
+    font-family:Roboto;
+    background:url(https://i.imgur.com/ZrF0IiF.jpg);
     background-size:100%;
     background-repeat:no-repeat;
 }
@@ -80,7 +83,8 @@ td:hover {
     flex-flow:column wrap;
     position:absolute;
     top:10%;
-    left:25%
+    left:25%;
+    box-shadow:2px 2px 1px grey;
  }
 
  .playerTables{
@@ -89,6 +93,40 @@ td:hover {
  }
 
  .individualTable{
+    margin:10px;
     display:flex;
     flex-flow:column wrap;
+ }
+
+ .titleBar{
+    color:white;
+    margin:0px;
+    background-color:#319df6;
+    height:50px;
+    font-size:30px;
+    padding-top:10px;
+ }
+
+.gameTitle{
+    margin-left:45%;
+}
+
+.container{
+    padding:0px;
+    margin:0px;
+ }
+
+ footer{
+    position:absolute;
+    bottom:5%;
+    right:2%;
+    background-color:white;
+    padding:20px;
+    box-shadow:2px 2px 1px grey;
+    border: 1px solid black;
+ }
+
+ .footContainer{
+    background-color:white;
+
  }

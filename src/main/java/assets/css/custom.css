@@ -128,5 +128,12 @@ td:hover {
 
  .footContainer{
     background-color:white;
+ }
 
+ .containerGameTitle{
+    margin-left:30%;
+ }
+
+ #is_vertical{
+    visibility:hidden;
  }

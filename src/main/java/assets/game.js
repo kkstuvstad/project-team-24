@@ -10,6 +10,7 @@ function makeGrid(table, isPlayer) {
         for (j=0; j<10; j++) {
             let column = document.createElement('td');
             column.addEventListener("click", cellClick);
+            column.addEventListener("mouseup", cellDrop);
             row.appendChild(column);
         }
         table.appendChild(row);
@@ -55,12 +56,37 @@ function registerCellListener(f) {
             let cell = el.rows[i].cells[j];
             cell.removeEventListener("mouseover", oldListener);
             cell.removeEventListener("mouseout", oldListener);
+            cell.removeEventListener("dragenter", oldListener);
+            cell.removeEventListener("dragleave", oldListener)
             cell.addEventListener("mouseover", f);
             cell.addEventListener("mouseout", f);
+            cell.addEventListener("dragenter", f);
+            cell.addEventListener("dragleave",f);
         }
     }
     oldListener = f;
 }
+
+var isDragged = false;
+
+function cellDrop(){
+    if(isDragged){
+    let row = this.parentNode.rowIndex + 1;
+    let col = String.fromCharCode(this.cellIndex + 65);
+    if (isSetup) {
+        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
+            game = data;
+            redrawGrid();
+            placedShips++;
+            if (placedShips == 3) {
+                isSetup = false;
+                registerCellListener((e) => {});
+            }
+        });
+    }
+    isDragged = false;
+    }
+ }
 
 function cellClick() {
     let row = this.parentNode.rowIndex + 1;
@@ -139,6 +165,24 @@ function initGame() {
     document.getElementById("place_battleship").addEventListener("click", function(e) {
         shipType = "BATTLESHIP";
        registerCellListener(place(4));
+    });
+    document.getElementById("place_minesweeper").addEventListener("dragstart", function(e) {
+        e.preventDefault();
+        isDragged = true;
+        shipType = "MINESWEEPER";
+        registerCellListener(place(2));
+    });
+    document.getElementById("place_destroyer").addEventListener("dragstart", function(e) {
+        e.preventDefault();
+        isDragged = true;
+        shipType = "DESTROYER";
+        registerCellListener(place(3));
+    });
+    document.getElementById("place_battleship").addEventListener("dragstart", function(e) {
+        e.preventDefault();
+        isDragged = true;
+        shipType = "BATTLESHIP";
+        registerCellListener(place(4));
     });
     sendXhr("GET", "/game", {}, function(data) {
         game = data;

@@ -54,9 +54,18 @@ public class Board {
 		//Trying to understand the meaning of the code below
 		//if attack existed the attack is invalid
 		if (attacks.stream().anyMatch(r -> r.getLocation().equals(s))) {
-			var attackResult = new Result(s);
-			attackResult.setResult(AtackStatus.INVALID);
-			return attackResult;
+			//When there is a captain quarter in the square, still attack it
+			if(ships.stream().anyMatch(ship -> ship.getCaptainQuarter().equals(s))){
+				var missedAttacks = attacks.stream().filter(r -> r.getLocation().equals(s)).collect(Collectors.toList());
+				missedAttacks.stream().forEach(r -> r.setResult(AtackStatus.SUNK));
+
+				//attack(s);
+			}
+			else {
+				var attackResult = new Result(s);
+				attackResult.setResult(AtackStatus.INVALID);
+				return attackResult;
+			}
 		}
 		//Check if there is ship on the grid, if not return "MISS"
 		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());

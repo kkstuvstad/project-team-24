@@ -16,6 +16,7 @@ public class Ship {
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private int size;
 	@JsonProperty private Square captainQuarter;
+	@JsonProperty private boolean isArmorDown = false;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -40,6 +41,8 @@ public class Ship {
 	public List<Square> getOccupiedSquares() {
 		return occupiedSquares;
 	}
+
+	public Square getCaptainQuarter(){return captainQuarter;}
 
 	//TODO : place the captainquarter
 	public void place(char col, int row, boolean isVertical) {
@@ -116,6 +119,15 @@ public class Ship {
 			result.setResult(AtackStatus.INVALID);
 			return result;
 		}
+
+		//check for the case that hit the armored captain quarter
+		if(attackedSquare.equals(captainQuarter) && !isArmorDown){
+			isArmorDown = true;
+			var result = new Result(attackedLocation);
+			result.setResult(AtackStatus.MISS);
+			return result;
+		}
+
 		//set it to hit
 		attackedSquare.hit();
 		var result = new Result(attackedLocation);

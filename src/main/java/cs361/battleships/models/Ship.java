@@ -15,6 +15,7 @@ public class Ship {
 	@JsonProperty private String kind;
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private int size;
+	@JsonProperty private Square captainQuarter;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -40,6 +41,7 @@ public class Ship {
 		return occupiedSquares;
 	}
 
+	//TODO : place the captainquarter
 	public void place(char col, int row, boolean isVertical) {
 		for (int i=0; i<size; i++) {
 			if (isVertical) {
@@ -48,6 +50,39 @@ public class Ship {
 				occupiedSquares.add(new Square(row, (char) (col + i)));
 			}
 		}
+		//Vertical:
+		//Minesweeper: place where it is
+		//Destroyer: Place 1 block below
+		//Battleship: Place 2 blocks below
+		//Horizontal Down below:
+		//Reverse
+		if(isVertical) {
+			switch (kind) {
+				case "MINESWEEPER":
+					captainQuarter = new Square(row, col);
+					break;
+				case "DESTROYER":
+					captainQuarter = new Square(row + 1,col);
+					break;
+				case "BATTLESHIP":
+					captainQuarter = new Square(row + 2, col);
+					break;
+			}
+		}
+		else{
+			switch (kind) {
+				case "MINESWEEPER":
+					captainQuarter = new Square(row, col);
+					break;
+				case "DESTROYER":
+					captainQuarter = new Square(row, (char) (col + 1));
+					break;
+				case "BATTLESHIP":
+					captainQuarter = new Square(row, (char) (col + 2));
+					break;
+			}
+		}
+
 	}
 
 	public boolean overlaps(Ship other) {
@@ -65,20 +100,26 @@ public class Ship {
 		return kind;
 	}
 
+
 	public Result attack(int x, char y) {
 		var attackedLocation = new Square(x, y);
 		var square = getOccupiedSquares().stream().filter(s -> s.equals(attackedLocation)).findFirst();
+		//if the square created is part of the occupied square of ship
 		if (!square.isPresent()) {
 			return new Result(attackedLocation);
 		}
+		//return miss
 		var attackedSquare = square.get();
+		//if already hit it is invalid
 		if (attackedSquare.isHit()) {
 			var result = new Result(attackedLocation);
 			result.setResult(AtackStatus.INVALID);
 			return result;
 		}
+		//set it to hit
 		attackedSquare.hit();
 		var result = new Result(attackedLocation);
+		//set the result
 		result.setShip(this);
 		if (isSunk()) {
 			result.setResult(AtackStatus.SUNK);
@@ -87,10 +128,10 @@ public class Ship {
 		}
 		return result;
 	}
-
+    //check if captain Quarter is Hit
 	@JsonIgnore
 	public boolean isSunk() {
-		return getOccupiedSquares().stream().allMatch(s -> s.isHit());
+		return (getOccupiedSquares().stream().allMatch(s -> s.isHit())) || (getOccupiedSquares().stream().anyMatch(s -> s.isHit() && s.equals(captainQuarter)));
 	}
 
 	@Override

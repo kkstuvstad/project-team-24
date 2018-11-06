@@ -26,11 +26,19 @@ function markHits(board, elementId, surrenderText) {
             className = "hit";
         else if (attack.result === "SUNK")
             className = "sink"
+            //refreshOpponentGrid();
         else if (attack.result === "SURRENDER"){
             className = "sink"
             alert(surrenderText);
         }
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
+    });
+}
+
+function refreshOpponentGrid(){
+    sendXhr("POST","/refreshOpponent",{game:game, isFresh:true},function(data){
+        game = data;
+        redrawGrid();
     });
 }
 
@@ -108,6 +116,7 @@ function cellClick() {
             game = data;
             //when player clicks attack,
             redrawGrid();
+            //refreshOpponentGrid();
         });
     }
 }

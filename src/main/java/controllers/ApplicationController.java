@@ -39,4 +39,11 @@ public class ApplicationController {
             return Results.badRequest();
         }
     }
+
+    public Result refreshOpponent(Context context, RefreshGameAction g){
+        Game game = g.getGame();
+        return Results.json().render(game);
+    }
+
+
 }

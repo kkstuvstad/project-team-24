@@ -70,6 +70,8 @@ public class Board {
 		//go to attack(x,y) in Ship class
 		var attackResult = hitShip.attack(s.getRow(), s.getColumn());
 		if (attackResult.getResult() == AtackStatus.SUNK) {
+			//if ship sunk, make sure all the squares are checked as hit
+			hitShip.getOccupiedSquares().stream().forEach(square -> attacks.add(attack(square)));
 			//check surrender
 			if (ships.stream().allMatch(ship -> ship.isSunk())) {
 				attackResult.setResult(AtackStatus.SURRENDER);

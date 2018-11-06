@@ -106,6 +106,7 @@ function cellClick() {
     } else {
         sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
             game = data;
+            //when player clicks attack,
             redrawGrid();
         });
     }

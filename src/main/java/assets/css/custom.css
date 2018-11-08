@@ -165,3 +165,11 @@ td:hover {
 .captainQuarters {
     background-color: green;
 }
+
+.sonarPulse empty {
+    background-color: grey;
+}
+
+.sonarPulse occupied {
+    background-color: black;
+}

@@ -51,19 +51,37 @@ public class Board {
 	}
 
 	private Result attack(Square s) {
+		//Trying to understand the meaning of the code below
+		//if attack existed the attack is invalid
 		if (attacks.stream().anyMatch(r -> r.getLocation().equals(s))) {
-			var attackResult = new Result(s);
-			attackResult.setResult(AtackStatus.INVALID);
-			return attackResult;
+			//When there is a captain quarter in the square, still attack it
+			if(ships.stream().anyMatch(ship -> ship.getCaptainQuarter().equals(s))){
+				var missedAttacks = attacks.stream().filter(r -> r.getLocation().equals(s)).collect(Collectors.toList());
+				missedAttacks.stream().forEach(r -> r.setResult(AtackStatus.SUNK));
+
+				//attack(s);
+			}
+			else {
+				var attackResult = new Result(s);
+				attackResult.setResult(AtackStatus.INVALID);
+				return attackResult;
+			}
 		}
+		//Check if there is ship on the grid, if not return "MISS"
 		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
 		if (shipsAtLocation.size() == 0) {
 			var attackResult = new Result(s);
 			return attackResult;
 		}
+
+		//hitShip is the ship that got hit
 		var hitShip = shipsAtLocation.get(0);
+		//go to attack(x,y) in Ship class
 		var attackResult = hitShip.attack(s.getRow(), s.getColumn());
 		if (attackResult.getResult() == AtackStatus.SUNK) {
+			//if ship sunk, make sure all the squares are checked as hit
+			hitShip.getOccupiedSquares().stream().forEach(square -> attacks.add(attack(square)));
+			//check surrender
 			if (ships.stream().allMatch(ship -> ship.isSunk())) {
 				attackResult.setResult(AtackStatus.SURRENDER);
 			}

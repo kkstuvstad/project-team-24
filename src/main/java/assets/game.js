@@ -54,6 +54,10 @@ function redrawGrid() {
     game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
+    //Change the styling of player's captainquarters to green
+    game.playersBoard.ships.forEach((ship) => {document.getElementById("player").rows[ship.captainQuarter.row-1].cells[ship.captainQuarter.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("occupied");
+                                                document.getElementById("player").rows[ship.captainQuarter.row-1].cells[ship.captainQuarter.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("captainQuarters");
+     });
     markHits(game.opponentsBoard, "opponent", "You won the game");
     markHits(game.playersBoard, "player", "You lost the game");
 }
@@ -159,6 +163,7 @@ function place(size) {
             }
 
             cell.classList.toggle("placed");
+            //cell.classList[size-2].toggle("captainQuarters");
         }
     }
 }

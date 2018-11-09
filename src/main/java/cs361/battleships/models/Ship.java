@@ -27,6 +27,7 @@ public class Ship {
 		this.kind = kind;
 		switch(kind) {
 			case "MINESWEEPER":
+				isArmorDown = true;
 				size = 2;
 				break;
 			case "DESTROYER":

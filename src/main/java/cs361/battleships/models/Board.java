@@ -3,7 +3,9 @@ package cs361.battleships.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Board {
@@ -48,6 +50,40 @@ public class Board {
 		Result attackResult = attack(new Square(x, y));
 		attacks.add(attackResult);
 		return attackResult;
+	}
+
+	private List<Result> sonar(Square s) {
+
+		List <Result> results = new ArrayList<>();
+		List <Square> squares = new ArrayList<>();
+
+		squares.add(s);
+		squares.add(new Square(s.getRow()+2, s.getColumn()));
+		squares.add(new Square(s.getRow()+1, s.getColumn()));
+		squares.add(new Square(s.getRow()+1, (char)(s.getColumn()-1)));
+		squares.add(new Square(s.getRow()+1, (char)(s.getColumn()+1)));
+		squares.add(new Square(s.getRow(), (char)(s.getColumn()-2)));
+		squares.add(new Square(s.getRow(), (char)(s.getColumn()-1)));
+		squares.add(new Square(s.getRow(), (char)(s.getColumn()+1)));
+		squares.add(new Square(s.getRow(), (char)(s.getColumn()+2)));
+		squares.add(new Square(s.getRow()-1, s.getColumn()));
+		squares.add(new Square(s.getRow()-1, (char)(s.getColumn()-1)));
+		squares.add(new Square(s.getRow()-1, (char)(s.getColumn()+1)));
+		squares.add(new Square(s.getRow()-2, s.getColumn()));
+
+		for(int i = 0; i < squares.size(); i++) {
+			Square temp = squares.get(i);
+			var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(temp)).collect(Collectors.toList());
+			var attackResult = new Result(s);
+			if (shipsAtLocation.size() == 0)
+				attackResult.setResult(AtackStatus.EMPTY);
+			else
+				attackResult.setResult(AtackStatus.OCCUPIED);
+
+			results.add(attackResult);
+		}
+
+		return results;
 	}
 
 	private Result attack(Square s) {

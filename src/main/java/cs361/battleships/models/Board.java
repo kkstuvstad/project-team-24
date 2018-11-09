@@ -12,13 +12,17 @@ public class Board {
 
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
+	@JsonProperty private List<Result> sonars;
+	@JsonProperty private int numShipsSunk;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Board() {
+		numShipsSunk = 0;
 		ships = new ArrayList<>();
 		attacks = new ArrayList<>();
+		sonars = new ArrayList<>();
 	}
 
 	/*
@@ -73,14 +77,21 @@ public class Board {
 
 		for(int i = 0; i < squares.size(); i++) {
 			Square temp = squares.get(i);
-			var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(temp)).collect(Collectors.toList());
-			var attackResult = new Result(s);
-			if (shipsAtLocation.size() == 0)
-				attackResult.setResult(AtackStatus.EMPTY);
-			else
-				attackResult.setResult(AtackStatus.OCCUPIED);
+			//var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(temp)).collect(Collectors.toList());
+			var attackResult = new Result(temp);
+			if(temp.isOutOfBounds())
+				attackResult.setResult(AtackStatus.INVALID);
+			else if (attacks.stream().anyMatch(r -> r.getLocation().equals(temp))){
+				attackResult.setResult(AtackStatus.INVALID);
+			}
 
-			results.add(attackResult);
+			else if (ships.stream().anyMatch(ship -> ship.isAtLocation(temp)))
+				attackResult.setResult(AtackStatus.OCCUPIED);
+			else
+				attackResult.setResult(AtackStatus.EMPTY);
+
+			if(attackResult.getResult() != AtackStatus.INVALID)
+				results.add(attackResult);
 		}
 
 		return results;
@@ -115,6 +126,7 @@ public class Board {
 		//go to attack(x,y) in Ship class
 		var attackResult = hitShip.attack(s.getRow(), s.getColumn());
 		if (attackResult.getResult() == AtackStatus.SUNK) {
+			numShipsSunk++;
 			//if ship sunk, make sure all the squares are checked as hit
 			hitShip.getOccupiedSquares().stream().forEach(square -> attacks.add(attack(square)));
 			//check surrender
@@ -125,10 +137,19 @@ public class Board {
 		return attackResult;
 	}
 	//filler until sonar is fully completed
-	public Result sonar(int x, char y){
-		System.out.println("SONAR ACTIVATED");
-		Result result = attack(new Square(x,y));
-		return result;
+	public boolean sonar(int x, char y){
+		if(numShipsSunk == 0)
+			return false;
+		List <Result> results = sonar(new Square(x,y));
+		if(results.get(0).getResult() == AtackStatus.INVALID) {
+			return false;
+		}
+		else {
+			for(int i = 0; i < results.size(); i++){
+				sonars.add(results.get(i));
+			}
+			return true;
+		}
 	}
 
 	List<Ship> getShips() {

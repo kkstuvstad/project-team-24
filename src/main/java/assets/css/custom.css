@@ -42,7 +42,9 @@ td:hover {
 .placed {
     background-color: gray;
 }
-
+.empty {
+    background-color: gray;
+}
 .occupied {
     background-color: black;
 }
@@ -154,7 +156,7 @@ td:hover {
 
 .shipPicture{
     margin-top: 5px;
-    margin-left:20%;
+    margin-left:0;
 }
 
  .shipPicture:hover{
@@ -169,7 +171,7 @@ td:hover {
 
 .sonarPulse{
     margin-top: 5px;
-    margin-left:20%;
+    margin-left:0;
 }
 
  .sonarPulse:hover{

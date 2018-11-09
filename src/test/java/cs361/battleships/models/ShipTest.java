@@ -175,7 +175,7 @@ public class ShipTest {
         Ship destroyer2 = new Ship("DESTROYER");
         destroyer2.place('B',1,false);
         var result2 = destroyer2.attack(1,'C');
-        //assertEquals(AtackStatus.SUNK, result2.getResult());
+        assertEquals(AtackStatus.MISS, result2.getResult());
 
     }
 }

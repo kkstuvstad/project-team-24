@@ -3,6 +3,7 @@ var placedShips = 0;
 var game;
 var shipType;
 var sonar = false;
+var numSonars = 0;
 var vertical;
 
 function makeGrid(table, isPlayer) {
@@ -19,6 +20,16 @@ function makeGrid(table, isPlayer) {
 }
 
 function markHits(board, elementId, surrenderText) {
+    board.sonars.forEach((sonar) => {
+        let Name;
+        if (sonar.result === "EMPTY"){
+            Name = "empty"
+        }
+        else if (sonar.result === "OCCUPIED"){
+            Name = "occupied";
+        }
+        document.getElementById(elementId).rows[sonar.location.row-1].cells[sonar.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(Name);
+    });
     board.attacks.forEach((attack) => {
         let className;
         if (attack.result === "MISS"){
@@ -121,10 +132,13 @@ function cellClick() {
         });
     } else {
         if (sonar){
-            sendXhr("POST", "/sonar", {game: game, x: row, y: col}, function(data) {
-                game = data;
-                redrawGrid();
-            });
+            if(numSonars < 2){
+                sendXhr("POST", "/sonar", {game: game, x: row, y: col}, function(data) {
+                    game = data;
+                    redrawGrid();
+                    numSonars++;
+                });
+            }
             sonar = false;
         }
         else{

@@ -166,6 +166,17 @@ td:hover {
     background-color: green;
 }
 
+
+.sonarPulse{
+    margin-top: 5px;
+    margin-left:20%;
+}
+
+ .sonarPulse:hover{
+    border: 4px solid grey;
+    cursor:pointer;
+ }
+
 .sonarPulse empty {
     background-color: grey;
 }
@@ -173,3 +184,4 @@ td:hover {
 .sonarPulse occupied {
     background-color: black;
 }
+

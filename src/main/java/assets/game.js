@@ -136,8 +136,8 @@ function cellClick() {
                 sendXhr("POST", "/sonar", {game: game, x: row, y: col}, function(data) {
                     game = data;
                     redrawGrid();
+                    numSonars++;
                 });
-                numSonars++;
             }
             sonar = false;
         }

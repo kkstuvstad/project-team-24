@@ -88,6 +88,12 @@ public class Board {
 		}
 		return attackResult;
 	}
+	//filler until sonar is fully completed
+	public Result sonar(int x, char y){
+		System.out.println("SONAR ACTIVATED");
+		Result result = attack(new Square(x,y));
+		return result;
+	}
 
 	List<Ship> getShips() {
 		return ships;

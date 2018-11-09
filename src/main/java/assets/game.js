@@ -2,6 +2,7 @@ var isSetup = true;
 var placedShips = 0;
 var game;
 var shipType;
+var sonar = false;
 var vertical;
 
 function makeGrid(table, isPlayer) {
@@ -20,13 +21,16 @@ function makeGrid(table, isPlayer) {
 function markHits(board, elementId, surrenderText) {
     board.attacks.forEach((attack) => {
         let className;
-        if (attack.result === "MISS")
+        if (attack.result === "MISS"){
+            document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("captainQuarters");
             className = "miss";
+            }
         else if (attack.result === "HIT")
             className = "hit";
-        else if (attack.result === "SUNK")
+        else if (attack.result === "SUNK"){
+            document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("captainQuarters");
             className = "sink"
-            //refreshOpponentGrid();
+            }
         else if (attack.result === "SURRENDER"){
             className = "sink"
             alert(surrenderText);
@@ -54,6 +58,10 @@ function redrawGrid() {
     game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
+    //Change the styling of player's captainquarters to green
+    game.playersBoard.ships.forEach((ship) => {document.getElementById("player").rows[ship.captainQuarter.row-1].cells[ship.captainQuarter.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("occupied");
+                                                document.getElementById("player").rows[ship.captainQuarter.row-1].cells[ship.captainQuarter.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("captainQuarters");
+     });
     markHits(game.opponentsBoard, "opponent", "You won the game");
     markHits(game.playersBoard, "player", "You lost the game");
 }
@@ -112,12 +120,21 @@ function cellClick() {
             }
         });
     } else {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
-            game = data;
-            //when player clicks attack,
-            redrawGrid();
-            //refreshOpponentGrid();
-        });
+        if (sonar){
+            sendXhr("POST", "/sonar", {game: game, x: row, y: col}, function(data) {
+                game = data;
+                redrawGrid();
+            });
+            sonar = false;
+        }
+        else{
+            sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
+                game = data;
+                //when player clicks attack,
+                redrawGrid();
+                //refreshOpponentGrid();
+            });
+        }
     }
 }
 
@@ -159,9 +176,15 @@ function place(size) {
             }
 
             cell.classList.toggle("placed");
+            //cell.classList[size-2].toggle("captainQuarters");
         }
     }
 }
+
+document.getElementById("sonar_pulse").addEventListener("click",function(e) {
+    sonar = true;
+    });
+
 
 function initGame() {
     makeGrid(document.getElementById("opponent"), false);

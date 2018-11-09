@@ -52,10 +52,9 @@ public class Game {
 
     public boolean sonar(int x, char y){
         boolean playerAttack = opponentsBoard.sonar(x,y);
-        if (playerAttack){
+        if (!playerAttack){
             return false;
         }
-
         Result opponentAttackResult;
         do {
             // AI does random attacks, so it might attack the same spot twice

@@ -165,3 +165,13 @@ td:hover {
 .captainQuarters {
     background-color: green;
 }
+
+.sonarPulse{
+    margin-top: 5px;
+    margin-left:20%;
+}
+
+ .sonarPulse:hover{
+    border: 4px solid grey;
+    cursor:pointer;
+ }

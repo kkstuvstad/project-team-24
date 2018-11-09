@@ -51,8 +51,8 @@ public class Game {
     }
 
     public boolean sonar(int x, char y){
-        Result playerAttack = opponentsBoard.sonar(x,y);
-        if (playerAttack.getResult() == INVALID){
+        boolean playerAttack = opponentsBoard.sonar(x,y);
+        if (playerAttack){
             return false;
         }
 

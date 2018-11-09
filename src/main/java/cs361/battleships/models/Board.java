@@ -89,9 +89,9 @@ public class Board {
 		return attackResult;
 	}
 	//filler until sonar is fully completed
-	public Result sonar(int x, char y){
+	public boolean sonar(int x, char y){
 		System.out.println("SONAR ACTIVATED");
-		Result result = attack(new Square(x,y));
+		boolean result = attack(new Square(x,y));
 		return result;
 	}
 

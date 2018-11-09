@@ -50,6 +50,23 @@ public class Game {
         return true;
     }
 
+    public boolean sonar(int x, char y){
+        Result playerAttack = opponentsBoard.sonar(x,y);
+        if (playerAttack.getResult() == INVALID){
+            return false;
+        }
+
+        Result opponentAttackResult;
+        do {
+            // AI does random attacks, so it might attack the same spot twice
+            // let it try until it gets it right
+            opponentAttackResult = playersBoard.attack(randRow(), randCol());
+        } while(opponentAttackResult.getResult() == INVALID);
+
+        return true;
+
+    }
+
     private char randCol() {
         int random = new Random().nextInt(10);
         return (char) ('A' + random);

@@ -2,6 +2,7 @@ var isSetup = true;
 var placedShips = 0;
 var game;
 var shipType;
+var sonar = false;
 var vertical;
 
 function makeGrid(table, isPlayer) {
@@ -119,12 +120,21 @@ function cellClick() {
             }
         });
     } else {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
-            game = data;
-            //when player clicks attack,
-            redrawGrid();
-            //refreshOpponentGrid();
-        });
+        if (sonar){
+            sendXhr("POST", "/sonar", {game: game, x: row, y: col}, function(data) {
+                game = data;
+                redrawGrid();
+            });
+            sonar = false;
+        }
+        else{
+            sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
+                game = data;
+                //when player clicks attack,
+                redrawGrid();
+                //refreshOpponentGrid();
+            });
+        }
     }
 }
 
@@ -170,6 +180,11 @@ function place(size) {
         }
     }
 }
+
+document.getElementById("sonar_pulse").addEventListener("click",function(e) {
+    sonar = true;
+    });
+
 
 function initGame() {
     makeGrid(document.getElementById("opponent"), false);

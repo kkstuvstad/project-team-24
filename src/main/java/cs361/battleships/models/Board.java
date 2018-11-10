@@ -152,9 +152,9 @@ public class Board {
 		}
 	}
 
-	List<Ship> getShips() {
+	public List<Ship> getShips() {
 		return ships;
 	}
 
-	List<Result> getSonars() {return sonars;}
+	public List<Result> getSonars() {return sonars;}
 }

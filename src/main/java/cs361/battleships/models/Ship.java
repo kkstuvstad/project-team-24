@@ -2,13 +2,9 @@ package cs361.battleships.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.Sets;
-import com.mchange.v1.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 public class Ship {
 
@@ -54,12 +50,11 @@ public class Ship {
 				occupiedSquares.add(new Square(row, (char) (col + i)));
 			}
 		}
-		//Vertical:
-		//Minesweeper: place where it is
-		//Destroyer: Place 1 block below
-		//Battleship: Place 2 blocks below
-		//Horizontal Down below:
-		//Reverse
+		placeCaptainQuarter(col, row, isVertical);
+
+	}
+
+	private void placeCaptainQuarter(char col, int row, boolean isVertical) {
 		if(isVertical) {
 			switch (kind) {
 				case "MINESWEEPER":
@@ -86,18 +81,6 @@ public class Ship {
 					break;
 			}
 		}
-
-	}
-
-	public boolean overlaps(Ship other) {
-		Set<Square> thisSquares = Set.copyOf(getOccupiedSquares());
-		Set<Square> otherSquares = Set.copyOf(other.getOccupiedSquares());
-		Sets.SetView<Square> intersection = Sets.intersection(thisSquares, otherSquares);
-		return intersection.size() != 0;
-	}
-
-	public boolean isAtLocation(Square location) {
-		return getOccupiedSquares().stream().anyMatch(s -> s.equals(location));
 	}
 
 	public String getKind() {

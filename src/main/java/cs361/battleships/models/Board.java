@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 
 public class Board {
 
-	@JsonProperty private List<Ship> ships;
-	@JsonProperty private List<Result> attacks;
-	@JsonProperty private List<Result> sonars;
-	@JsonProperty private int numShipsSunk;
-	@JsonProperty private int maxShip;
+	@JsonProperty protected List<Ship> ships;
+	@JsonProperty protected List<Result> attacks;
+	@JsonProperty protected List<Result> sonars;
+	@JsonProperty protected int numShipsSunk;
+	@JsonProperty protected int maxShip;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -36,6 +36,7 @@ public class Board {
 		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
 			return false;
 		}
+		System.out.println(ship.getKind());
 		final var placedShip = factory.getShip(ship.getKind());
 		placedShip.place(y, x, isVertical);
 		if (ships.stream().anyMatch(s -> GameHelper.overlaps(placedShip, s))) {
@@ -135,4 +136,8 @@ public class Board {
 	}
 
 	public List<Result> getSonars() {return sonars;}
+
+	public void setMaxShip(int max){
+		maxShip = max;
+	}
 }

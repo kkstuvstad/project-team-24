@@ -113,7 +113,7 @@ function cellDrop(){
     let row = this.parentNode.rowIndex + 1;
     let col = String.fromCharCode(this.cellIndex + 65);
     if (isSetup) {
-        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
+        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical,isSubBoard:isSubView}, function(data) {
             game = data;
             redrawGrid();
             placedShips++;
@@ -131,7 +131,7 @@ function cellClick() {
     let row = this.parentNode.rowIndex + 1;
     let col = String.fromCharCode(this.cellIndex + 65);
     if (isSetup) {
-        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
+        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical, isSubBoard:isSubView}, function(data) {
             game = data;
             //game.playersBoard.ships[placedShips]['@type'] = shipType.charAt(0) + shipType.slice(1).toLowerCase();
             //game.opponentsBoard.ships[placedShips]['@type'] = shipType.charAt(0) + shipType.slice(1).toLowerCase();
@@ -250,6 +250,14 @@ function initGame() {
         registerCellListener(place(4));
     });
     document.getElementById("switch_boards").addEventListener("click",function(e){
+        if(isSubView){
+            document.getElementById("enemyBoardName").textContent = "Surface";
+            document.getElementById("playerBoardName").textContent = "Surface";
+        }
+        else{
+            document.getElementById("enemyBoardName").textContent = "Sub";
+            document.getElementById("playerBoardName").textContent = "Sub";
+        }
         isSubView = !isSubView;
         redrawGrid();
     });

@@ -34,7 +34,7 @@ public class ApplicationController {
             else{
                 ship = new Submarine();
             }
-            boolean result = game.placeShip(ship, g.getActionRow(), g.getActionColumn(), g.isVertical());
+            boolean result = game.placeShip(ship, g.getActionRow(), g.getActionColumn(), g.isVertical(),g.isSubBoard());
             if (result) {
                 return Results.json().render(game);
             } else {

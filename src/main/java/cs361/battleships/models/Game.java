@@ -8,16 +8,27 @@ public class Game {
 
     @JsonProperty private Board playersBoard = new Board();
     @JsonProperty private Board opponentsBoard = new Board();
-    @JsonProperty private Board playersSubBoard = new SubBoard();
-    @JsonProperty private Board opponentsSubBoard = new SubBoard();
+    @JsonProperty private SubBoard playersSubBoard = new SubBoard();
+    @JsonProperty private SubBoard opponentsSubBoard = new SubBoard();
 
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
-    public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
-        boolean successful = playersBoard.placeShip(ship, x, y, isVertical);
-        if (!successful)
-            return false;
+    public boolean placeShip(Ship ship, int x, char y, boolean isVertical,boolean isSubBoard) {
+        if(isSubBoard) {
+            boolean successful = playersSubBoard.placeShip(ship, x, y, isVertical);
+            if (!successful) {
+                return false;
+            }
+            else{
+                playersBoard.setMaxShip(3);
+            }
+        }
+        else{
+            boolean successful = playersBoard.placeShip(ship, x, y, isVertical);
+            if (!successful)
+                return false;
+        }
 
         boolean opponentPlacedSuccessfully;
         do {

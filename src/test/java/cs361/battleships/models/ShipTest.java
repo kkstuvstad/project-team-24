@@ -89,7 +89,7 @@ public class ShipTest {
         Ship minesweeper2 = new Ship("MINESWEEPER");
         minesweeper2.place('A', 1, true);
 
-        assertTrue(minesweeper1.overlaps(minesweeper2));
+        assertTrue(GameHelper.overlaps(minesweeper2, minesweeper1));
     }
 
     @Test
@@ -100,7 +100,7 @@ public class ShipTest {
         Ship minesweeper2 = new Ship("MINESWEEPER");
         minesweeper2.place('C', 2, true);
 
-        assertFalse(minesweeper1.overlaps(minesweeper2));
+        assertFalse(GameHelper.overlaps(minesweeper2, minesweeper1));
     }
 
     @Test
@@ -108,8 +108,8 @@ public class ShipTest {
         Ship minesweeper = new Ship("BATTLESHIP");
         minesweeper.place('A', 1, true);
 
-        assertTrue(minesweeper.isAtLocation(new Square(1, 'A')));
-        assertTrue(minesweeper.isAtLocation(new Square(2, 'A')));
+        assertTrue(GameHelper.isAtLocation(new Square(1, 'A'), minesweeper));
+        assertTrue(GameHelper.isAtLocation(new Square(2, 'A'), minesweeper));
     }
 
     @Test
@@ -142,7 +142,7 @@ public class ShipTest {
         Ship destroyer = new Ship("DESTROYER");
         minesweeper.place('C', 5, false);
         destroyer.place('C', 5, false);
-        assertTrue(minesweeper.overlaps(destroyer));
+        assertTrue(GameHelper.overlaps(destroyer, minesweeper));
     }
 
     @Test

@@ -6,6 +6,7 @@ var sonar = false;
 var numSonars = 0;
 var maxShip = 4;
 var vertical;
+var isSubView = false;
 
 function makeGrid(table, isPlayer) {
     for (i=0; i<10; i++) {
@@ -59,6 +60,14 @@ function refreshOpponentGrid(){
 }
 
 function redrawGrid() {
+    if(isSubView){
+        var boardP = game.playersSubBoard;
+        var boardO = game.opponentsSubBoard;
+    }
+    else{
+        var boardP = game.playersBoard;
+        var boardO = game.opponentsBoard;
+    }
     Array.from(document.getElementById("opponent").childNodes).forEach((row) => row.remove());
     Array.from(document.getElementById("player").childNodes).forEach((row) => row.remove());
     makeGrid(document.getElementById("opponent"), false);
@@ -67,15 +76,15 @@ function redrawGrid() {
         return;
     }
 
-    game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
+    boardP.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
     //Change the styling of player's captainquarters to green
-    game.playersBoard.ships.forEach((ship) => {document.getElementById("player").rows[ship.captainQuarter.row-1].cells[ship.captainQuarter.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("occupied");
-                                                document.getElementById("player").rows[ship.captainQuarter.row-1].cells[ship.captainQuarter.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("captainQuarters");
+    boardP.ships.forEach((ship) => {document.getElementById("player").rows[ship.captainQuarter.row-1].cells[ship.captainQuarter.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("occupied");
+                                    document.getElementById("player").rows[ship.captainQuarter.row-1].cells[ship.captainQuarter.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("captainQuarters");
      });
-    markHits(game.opponentsBoard, "opponent", "You won the game");
-    markHits(game.playersBoard, "player", "You lost the game");
+    markHits(boardO, "opponent", "You won the game");
+    markHits(boardP, "player", "You lost the game");
 }
 
 var oldListener;
@@ -239,6 +248,10 @@ function initGame() {
         isDragged = true;
         shipType = "BATTLESHIP";
         registerCellListener(place(4));
+    });
+    document.getElementById("switch_boards").addEventListener("click",function(e){
+        isSubView = !isSubView;
+        redrawGrid();
     });
     sendXhr("GET", "/game", {}, function(data) {
         game = data;

@@ -123,6 +123,8 @@ function cellClick() {
     if (isSetup) {
         sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
             game = data;
+            game.playersBoard.ships[placedShips]['@type'] = shipType.charAt(0) + shipType.slice(1).toLowerCase();
+            game.opponentsBoard.ships[placedShips]['@type'] = shipType.charAt(0) + shipType.slice(1).toLowerCase();
             redrawGrid();
             placedShips++;
             if (placedShips == 3) {
@@ -215,6 +217,10 @@ function initGame() {
         shipType = "BATTLESHIP";
        registerCellListener(place(4));
     });
+    document.getElementById("place_submarine").addEventListener("click", function(e) {
+           shipType = "SUBMARINE";
+           registerCellListener(place(4));
+     });
     document.getElementById("place_minesweeper").addEventListener("dragstart", function(e) {
         e.preventDefault();
         isDragged = true;

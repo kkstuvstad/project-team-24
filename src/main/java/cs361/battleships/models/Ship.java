@@ -6,34 +6,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ship {
+public abstract class Ship {
 
-	@JsonProperty private String kind;
-	@JsonProperty private List<Square> occupiedSquares;
-	@JsonProperty private int size;
-	@JsonProperty private Square captainQuarter;
-	@JsonProperty private boolean isArmorDown = false;
+	@JsonProperty protected String kind;
+	@JsonProperty protected List<Square> occupiedSquares;
+	@JsonProperty protected int size;
+	@JsonProperty protected Square captainQuarter;
+	@JsonProperty protected boolean isArmorDown = false;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
 	}
 	
-	public Ship(String kind) {
-		this();
-		this.kind = kind;
-		switch(kind) {
-			case "MINESWEEPER":
-				isArmorDown = true;
-				size = 2;
-				break;
-			case "DESTROYER":
-				size = 3;
-				break;
-			case "BATTLESHIP":
-				size = 4;
-				break;
-		}
-	}
+
 
 	public List<Square> getOccupiedSquares() {
 		return occupiedSquares;
@@ -54,7 +39,8 @@ public class Ship {
 
 	}
 
-	private void placeCaptainQuarter(char col, int row, boolean isVertical) {
+	public abstract void placeCaptainQuarter(char col, int row, boolean isVertical);
+		/*
 		if(isVertical) {
 			switch (kind) {
 				case "MINESWEEPER":
@@ -81,7 +67,8 @@ public class Ship {
 					break;
 			}
 		}
-	}
+		*/
+
 
 	public String getKind() {
 		return kind;

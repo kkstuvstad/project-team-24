@@ -82,6 +82,34 @@ public class ShipTest {
     }
 
     @Test
+    public void testPlaceSubmarineHorizontally() {
+	Ship submarine = new Ship("SUBMARINE");
+	submarine.place('A', 2, false);
+	List<Square> occupiedSquares = submarine.getOccupiedSquares();
+	ArrayList<Object> expected = new ArrayList<>();
+	expected.add(new Square(2, 'A'));
+	expected.add(new Square(2, 'B'));
+	expected.add(new Square(2, 'C'));
+	expected.add(new Square(1, 'C'));
+	expected.add(new Square(2, 'D'));
+	assertEquals(expected, occupiedSquares);
+    }
+
+    @Test
+    public void testPlaceSubmarineVertically() {
+	Ship submarine = new Ship("SUBMARINE");
+	submarine.place('A', 1, true);
+	List<Square> occupiedSquares = submarine.getOccupiedSquares();
+	ArrayList<Object> expected = new ArrayList<>();
+	expected.add(new Square(1, 'A'));
+	expected.add(new Square(2, 'A'));
+	expected.add(new Square(3, 'A'));
+	expected.add(new Square(3, 'B'));
+	expected.add(new Square(4, 'A'));
+	assertEquals(expected, occupiedSquares);
+    }
+
+    @Test
     public void testShipOverlaps() {
         Ship minesweeper1 = new Ship("MINESWEEPER");
         minesweeper1.place('A', 1, true);

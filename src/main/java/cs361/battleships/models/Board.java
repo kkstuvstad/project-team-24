@@ -12,6 +12,7 @@ public class Board {
 	@JsonProperty private List<Result> attacks;
 	@JsonProperty private List<Result> sonars;
 	@JsonProperty private int numShipsSunk;
+	@JsonProperty private int maxShip;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -21,19 +22,21 @@ public class Board {
 		ships = new ArrayList<>();
 		attacks = new ArrayList<>();
 		sonars = new ArrayList<>();
+		maxShip = 4;
 	}
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
-		if (ships.size() >= 3) {
+		ShipFactory factory = new ShipFactory();
+		if (ships.size() >= maxShip) {
 			return false;
 		}
 		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
 			return false;
 		}
-		final var placedShip = new Ship(ship.getKind());
+		final var placedShip = factory.getShip(ship.getKind());
 		placedShip.place(y, x, isVertical);
 		if (ships.stream().anyMatch(s -> GameHelper.overlaps(placedShip, s))) {
 			return false;

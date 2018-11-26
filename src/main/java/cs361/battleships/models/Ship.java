@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Ship {
+public class Ship {
 
 	@JsonProperty protected String kind;
 	@JsonProperty protected List<Square> occupiedSquares;
@@ -39,7 +39,9 @@ public abstract class Ship {
 
 	}
 
-	public abstract void placeCaptainQuarter(char col, int row, boolean isVertical);
+	public void placeCaptainQuarter(char col, int row, boolean isVertical){
+
+	}
 		/*
 		if(isVertical) {
 			switch (kind) {

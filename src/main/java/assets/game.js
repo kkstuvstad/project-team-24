@@ -4,6 +4,7 @@ var game;
 var shipType;
 var sonar = false;
 var numSonars = 0;
+var maxShip = 4;
 var vertical;
 
 function makeGrid(table, isPlayer) {
@@ -107,7 +108,7 @@ function cellDrop(){
             game = data;
             redrawGrid();
             placedShips++;
-            if (placedShips == 3) {
+            if (placedShips == maxShip) {
                 isSetup = false;
                 registerCellListener((e) => {});
             }
@@ -123,11 +124,11 @@ function cellClick() {
     if (isSetup) {
         sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
             game = data;
-            game.playersBoard.ships[placedShips]['@type'] = shipType.charAt(0) + shipType.slice(1).toLowerCase();
-            game.opponentsBoard.ships[placedShips]['@type'] = shipType.charAt(0) + shipType.slice(1).toLowerCase();
+            //game.playersBoard.ships[placedShips]['@type'] = shipType.charAt(0) + shipType.slice(1).toLowerCase();
+            //game.opponentsBoard.ships[placedShips]['@type'] = shipType.charAt(0) + shipType.slice(1).toLowerCase();
             redrawGrid();
             placedShips++;
-            if (placedShips == 3) {
+            if (placedShips == maxShip) {
                 isSetup = false;
                 registerCellListener((e) => {});
             }

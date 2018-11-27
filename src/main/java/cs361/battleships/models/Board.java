@@ -112,7 +112,10 @@ public class Board {
 		var hitShip = shipsAtLocation.get(0);
 		var attackResult = hitShip.attack(s.getRow(), s.getColumn());
 		if (attackResult.getResult() == AtackStatus.SUNK) {
-			numShipsSunk++;
+			if(!hitShip.isSunkChecked()) {
+				numShipsSunk++;
+				hitShip.checkSunk();
+			}
 			hitShip.getOccupiedSquares().stream().forEach(square -> attacks.add(attack(square)));
 			if (ships.stream().allMatch(ship -> ship.isSunk())) {
 				attackResult.setResult(AtackStatus.SURRENDER);

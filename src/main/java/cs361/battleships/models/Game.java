@@ -61,6 +61,11 @@ public class Game {
         }
         if(opponentsBoard.getNumShipsSunk()>0){
             playerAttack = opponentsSubBoard.attack(x,y);
+            /*
+            if(playerAttack.getResult() == INVALID){
+                return false;
+            }
+            */
         }
 
         opponentAttack();

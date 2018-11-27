@@ -13,6 +13,7 @@ public class Ship {
 	@JsonProperty protected int size;
 	@JsonProperty protected Square captainQuarter;
 	@JsonProperty protected boolean isArmorDown = false;
+	@JsonProperty protected boolean sunkChecked = false;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -112,5 +113,11 @@ public class Ship {
 	@Override
 	public String toString() {
 		return kind + occupiedSquares.toString();
+	}
+
+	public boolean isSunkChecked() {return sunkChecked;}
+
+	public void checkSunk() {
+		sunkChecked = true;
 	}
 }

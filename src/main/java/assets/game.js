@@ -5,6 +5,8 @@ var shipType;
 var sonar = false;
 var numSonars = 0;
 var maxShip = 4;
+var playerTotalNumSink = 0;
+var opponentTotalNumSink = 0;
 var vertical;
 var isSubView = false;
 
@@ -46,7 +48,6 @@ function markHits(board, elementId, surrenderText) {
             }
         else if (attack.result === "SURRENDER"){
             className = "sink"
-            alert(surrenderText);
         }
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
     });
@@ -84,7 +85,15 @@ function redrawGrid() {
                                     document.getElementById("player").rows[ship.captainQuarter.row-1].cells[ship.captainQuarter.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("captainQuarters");
      });
     markHits(boardO, "opponent", "You won the game");
+
+
+    if(game.opponentsSubBoard.numShipsSunk + game.opponentsBoard.numShipsSunk == maxShip){
+        alert("You won the game");
+    }
     markHits(boardP, "player", "You lost the game");
+    if(game.playersSubBoard.numShipsSunk + game.playersBoard.numShipsSunk == maxShip){
+            alert("You lost the game");
+     }
 }
 
 var oldListener;

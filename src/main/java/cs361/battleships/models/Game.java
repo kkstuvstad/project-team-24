@@ -48,14 +48,27 @@ public class Game {
         if (playerAttack.getResult() == INVALID) {
             return false;
         }
+        if(opponentsBoard.getNumShipsSunk()>0){
+            playerAttack = opponentsSubBoard.attack(x,y);
+        }
 
+        opponentAttack();
+
+        return true;
+    }
+
+    public boolean opponentAttack(){
         Result opponentAttackResult;
+        int randrow;
+        char randcol;
         do {
-            // AI does random attacks, so it might attack the same spot twice
-            // let it try until it gets it right
-            opponentAttackResult = playersBoard.attack(GameHelper.randRow(), GameHelper.randCol());
+            randrow = GameHelper.randRow();
+            randcol = GameHelper.randCol();
+            opponentAttackResult = playersBoard.attack(randrow, randcol);
         } while(opponentAttackResult.getResult() == INVALID);
-
+        if(playersBoard.getNumShipsSunk() > 0){
+            opponentAttackResult = playersSubBoard.attack(randrow,randcol);
+        }
         return true;
     }
 
@@ -73,6 +86,10 @@ public class Game {
 
         return true;
 
+    }
+
+    public Board getPlayersBoard(){
+        return playersBoard;
     }
 
 }

@@ -25,6 +25,10 @@ public class Board {
 		maxShip = 4;
 	}
 
+	public int getNumShipsSunk(){
+		return numShipsSunk;
+	}
+
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */

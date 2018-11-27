@@ -90,6 +90,23 @@ td:hover {
     box-shadow:2px 2px 1px grey;
  }
 
+.majorGameContainer{
+    display:flex;
+    flex-flow:row wrap;
+}
+
+.informationContainer{
+    background:white;
+    border: 1px solid black;
+    padding: 10px;
+    display: flex;
+    flex-flow: column wrap;
+    box-shadow:2px 2px 1px grey;
+    position:absolute;
+    top:10%;
+    left:10%;
+}
+
  .playerTables{
     display:flex;
     flex-flow: row wrap;

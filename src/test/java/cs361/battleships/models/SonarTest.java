@@ -12,9 +12,13 @@ import static org.junit.Assert.assertTrue;
 public class SonarTest {
 
     private Board board;
+    private ShipFactory factory;
 
     @Before
-    public void setUp() { board = new Board(); }
+    public void setUp() {
+        board = new Board();
+        factory = new ShipFactory();
+    }
 
     @Test
     public void noShipSunk(){
@@ -24,12 +28,12 @@ public class SonarTest {
 
     @Test
     public void testSonar() {
-        board.placeShip(new Ship("BATTLESHIP"),9,'B',false);
-        board.placeShip(new Ship("DESTROYER"),1,'A',false);
+        board.placeShip(factory.getShip("BATTLESHIP"),9,'B',false);
+        board.placeShip(factory.getShip("DESTROYER"),1,'A',false);
         board.attack(1,'A');
         board.attack(1,'B');
         assertEquals(board.attack(1,'B').getResult(), AtackStatus.SUNK);
-        board.placeShip(new Ship("MINESWEEPER"),5,'D',false);
+        board.placeShip(factory.getShip("MINESWEEPER"),5,'D',false);
         boolean result = board.sonar(5,'D');
         assertTrue(result);
         List <Result> results = board.getSonars();

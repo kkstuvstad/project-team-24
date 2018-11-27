@@ -8,10 +8,11 @@ import java.util.stream.Collectors;
 
 public class Board {
 
-	@JsonProperty private List<Ship> ships;
-	@JsonProperty private List<Result> attacks;
-	@JsonProperty private List<Result> sonars;
-	@JsonProperty private int numShipsSunk;
+	@JsonProperty protected List<Ship> ships;
+	@JsonProperty protected List<Result> attacks;
+	@JsonProperty protected List<Result> sonars;
+	@JsonProperty protected int numShipsSunk;
+	@JsonProperty protected int maxShip;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -21,19 +22,26 @@ public class Board {
 		ships = new ArrayList<>();
 		attacks = new ArrayList<>();
 		sonars = new ArrayList<>();
+		maxShip = 4;
+	}
+
+	public int getNumShipsSunk(){
+		return numShipsSunk;
 	}
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
-		if (ships.size() >= 3) {
+		ShipFactory factory = new ShipFactory();
+		if (ships.size() >= maxShip) {
 			return false;
 		}
 		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
 			return false;
 		}
-		final var placedShip = new Ship(ship.getKind());
+		System.out.println(ship.getKind());
+		final var placedShip = factory.getShip(ship.getKind());
 		placedShip.place(y, x, isVertical);
 		if (ships.stream().anyMatch(s -> GameHelper.overlaps(placedShip, s))) {
 			return false;
@@ -104,7 +112,10 @@ public class Board {
 		var hitShip = shipsAtLocation.get(0);
 		var attackResult = hitShip.attack(s.getRow(), s.getColumn());
 		if (attackResult.getResult() == AtackStatus.SUNK) {
-			numShipsSunk++;
+			if(!hitShip.isSunkChecked()) {
+				numShipsSunk++;
+				hitShip.checkSunk();
+			}
 			hitShip.getOccupiedSquares().stream().forEach(square -> attacks.add(attack(square)));
 			if (ships.stream().allMatch(ship -> ship.isSunk())) {
 				attackResult.setResult(AtackStatus.SURRENDER);
@@ -132,4 +143,8 @@ public class Board {
 	}
 
 	public List<Result> getSonars() {return sonars;}
+
+	public void setMaxShip(int max){
+		maxShip = max;
+	}
 }

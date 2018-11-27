@@ -8,32 +8,18 @@ import java.util.List;
 
 public class Ship {
 
-	@JsonProperty private String kind;
-	@JsonProperty private List<Square> occupiedSquares;
-	@JsonProperty private int size;
-	@JsonProperty private Square captainQuarter;
-	@JsonProperty private boolean isArmorDown = false;
+	@JsonProperty protected String kind;
+	@JsonProperty protected List<Square> occupiedSquares;
+	@JsonProperty protected int size;
+	@JsonProperty protected Square captainQuarter;
+	@JsonProperty protected boolean isArmorDown = false;
+	@JsonProperty protected boolean sunkChecked = false;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
 	}
 	
-	public Ship(String kind) {
-		this();
-		this.kind = kind;
-		switch(kind) {
-			case "MINESWEEPER":
-				isArmorDown = true;
-				size = 2;
-				break;
-			case "DESTROYER":
-				size = 3;
-				break;
-			case "BATTLESHIP":
-				size = 4;
-				break;
-		}
-	}
+
 
 	public List<Square> getOccupiedSquares() {
 		return occupiedSquares;
@@ -54,34 +40,11 @@ public class Ship {
 
 	}
 
-	private void placeCaptainQuarter(char col, int row, boolean isVertical) {
-		if(isVertical) {
-			switch (kind) {
-				case "MINESWEEPER":
-					captainQuarter = new Square(row, col);
-					break;
-				case "DESTROYER":
-					captainQuarter = new Square(row + 1,col);
-					break;
-				case "BATTLESHIP":
-					captainQuarter = new Square(row + 2, col);
-					break;
-			}
-		}
-		else{
-			switch (kind) {
-				case "MINESWEEPER":
-					captainQuarter = new Square(row, col);
-					break;
-				case "DESTROYER":
-					captainQuarter = new Square(row, (char) (col + 1));
-					break;
-				case "BATTLESHIP":
-					captainQuarter = new Square(row, (char) (col + 2));
-					break;
-			}
-		}
+	public void placeCaptainQuarter(char col, int row, boolean isVertical){
+
 	}
+
+
 
 	public String getKind() {
 		return kind;
@@ -150,5 +113,11 @@ public class Ship {
 	@Override
 	public String toString() {
 		return kind + occupiedSquares.toString();
+	}
+
+	public boolean isSunkChecked() {return sunkChecked;}
+
+	public void checkSunk() {
+		sunkChecked = true;
 	}
 }

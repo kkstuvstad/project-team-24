@@ -34,7 +34,16 @@ public class Game {
         do {
             // AI places random ships, so it might try and place overlapping ships
             // let it try until it gets it right
-            opponentPlacedSuccessfully = opponentsBoard.placeShip(ship, GameHelper.randRow(), GameHelper.randCol(), GameHelper.randVertical());
+            if(ship.getKind().equals("SUBMARINE")) {
+                if (GameHelper.randSub()) {
+                    opponentPlacedSuccessfully = opponentsBoard.placeShip(ship, GameHelper.randRow(), GameHelper.randCol(), GameHelper.randVertical());
+                } else {
+                    opponentPlacedSuccessfully = opponentsSubBoard.placeShip(ship, GameHelper.randRow(), GameHelper.randCol(), GameHelper.randVertical());
+                }
+            }
+            else{
+                opponentPlacedSuccessfully = opponentsBoard.placeShip(ship, GameHelper.randRow(), GameHelper.randCol(), GameHelper.randVertical());
+            }
         } while (!opponentPlacedSuccessfully);
 
         return true;
@@ -46,7 +55,9 @@ public class Game {
     public boolean attack(int x, char  y) {
         Result playerAttack = opponentsBoard.attack(x, y);
         if (playerAttack.getResult() == INVALID) {
-            return false;
+            if(opponentsBoard.getNumShipsSunk() == 0) {
+                return false;
+            }
         }
         if(opponentsBoard.getNumShipsSunk()>0){
             playerAttack = opponentsSubBoard.attack(x,y);

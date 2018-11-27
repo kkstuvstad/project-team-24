@@ -105,6 +105,15 @@ td:hover {
     position:absolute;
     top:10%;
     left:10%;
+    max-width:10%;
+}
+
+.squareTutorial{
+    margin: 2px;
+}
+
+.textTutorial{
+    margin:3px;
 }
 
  .playerTables{

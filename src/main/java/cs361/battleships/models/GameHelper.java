@@ -46,4 +46,8 @@ public class GameHelper {
     public static boolean randVertical() {
         return new Random().nextBoolean();
     }
+
+    public static boolean randSub() {
+        return new Random().nextBoolean();
+    }
 }

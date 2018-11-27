@@ -45,6 +45,9 @@ public class ApplicationController {
 
     public Result attack(Context context, AttackGameAction g) {
         Game game = g.getGame();
+        if(game.getPlayersBoard().getNumShipsSunk() > 0){
+
+        }
         boolean result = game.attack(g.getActionRow(), g.getActionColumn());
         if (result) {
             return Results.json().render(game);

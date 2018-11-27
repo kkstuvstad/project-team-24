@@ -42,34 +42,7 @@ public class Ship {
 	public void placeCaptainQuarter(char col, int row, boolean isVertical){
 
 	}
-		/*
-		if(isVertical) {
-			switch (kind) {
-				case "MINESWEEPER":
-					captainQuarter = new Square(row, col);
-					break;
-				case "DESTROYER":
-					captainQuarter = new Square(row + 1,col);
-					break;
-				case "BATTLESHIP":
-					captainQuarter = new Square(row + 2, col);
-					break;
-			}
-		}
-		else{
-			switch (kind) {
-				case "MINESWEEPER":
-					captainQuarter = new Square(row, col);
-					break;
-				case "DESTROYER":
-					captainQuarter = new Square(row, (char) (col + 1));
-					break;
-				case "BATTLESHIP":
-					captainQuarter = new Square(row, (char) (col + 2));
-					break;
-			}
-		}
-		*/
+
 
 
 	public String getKind() {

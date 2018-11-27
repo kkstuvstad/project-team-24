@@ -32,9 +32,6 @@ public class Ship {
 			case "BATTLESHIP":
 				size = 4;
 				break;
-			case "SUBMARINE":
-				size = 5;
-				break;
 		}
 	}
 
@@ -69,9 +66,6 @@ public class Ship {
 				case "BATTLESHIP":
 					captainQuarter = new Square(row + 2, col);
 					break;
-				case "SUBMARINE"
-					captainQuarter = new Square(row + 3, col);
-					break;
 			}
 		}
 		else{
@@ -84,9 +78,6 @@ public class Ship {
 					break;
 				case "BATTLESHIP":
 					captainQuarter = new Square(row, (char) (col + 2));
-					break;
-				case "SUBMARINE":
-					captainQuarter = new Square(row, (char) (col + 3));
 					break;
 			}
 		}

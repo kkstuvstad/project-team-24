@@ -104,8 +104,8 @@ td:hover {
     box-shadow:2px 2px 1px grey;
     position:absolute;
     top:10%;
-    left:10%;
-    max-width:10%;
+    left:9%;
+    max-width:12%;
 }
 
 .squareTutorial{
@@ -114,6 +114,51 @@ td:hover {
 
 .textTutorial{
     margin:3px;
+}
+
+.shiftContainer{
+    background:white;
+    border: 1px solid black;
+    padding:10px;
+    display:flex;
+    flex-flow: column wrap;
+    left: 80.5%;
+    top: 10%;
+    position:absolute;
+    height: 350;
+    width: 125px;
+    box-shadow:2px 2px 1px grey;
+}
+
+.shiftTitle{
+    font-weight: 900;
+    font-color: white;
+    text-align: center;
+}
+
+.midCompass{
+    background: white;
+    display:flex;
+    flex-flow: row wrap;
+}
+
+#east{
+    margin-left: 22px;
+}
+
+#north{
+    margin-left: 36px;
+    margin-top: 10px;
+}
+
+#north:hover{
+    color:red;
+
+}
+
+#south{
+    margin-left: 36px;
+    margin-bottom: 10px;
 }
 
  .playerTables{

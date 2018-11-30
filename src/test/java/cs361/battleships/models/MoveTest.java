@@ -54,7 +54,7 @@ public class MoveTest {
         assertTrue(game.getPlayersBoard().getShips().get(3).getOccupiedSquares().get(1).getRow() == 5);
         assertTrue(game.getPlayersBoard().getShips().get(3).getOccupiedSquares().get(2).getRow() == 5);
         assertTrue(game.getPlayersBoard().getShips().get(3).getOccupiedSquares().get(3).getRow() == 5);
-        assertTrue(game.getPlayersBoard().getShips().get(3).getOccupiedSquares().get(4).getRow() == 6);
+        assertTrue(game.getPlayersBoard().getShips().get(3).getOccupiedSquares().get(4).getRow() == 4);
 
         assertTrue(game.getPlayersBoard().getShips().get(0).getCaptainQuarter().getRow() == 8);
         assertTrue(game.getPlayersBoard().getShips().get(1).getCaptainQuarter().getRow() == 1);

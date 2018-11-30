@@ -13,6 +13,7 @@ public class Board {
 	@JsonProperty protected List<Result> sonars;
 	@JsonProperty protected int numShipsSunk;
 	@JsonProperty protected int maxShip;
+	private ShipMover shipMover;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -23,6 +24,7 @@ public class Board {
 		attacks = new ArrayList<>();
 		sonars = new ArrayList<>();
 		maxShip = 4;
+		shipMover = new ShipMover();
 	}
 
 	public int getNumShipsSunk(){
@@ -136,6 +138,11 @@ public class Board {
 			}
 			return true;
 		}
+	}
+
+	public boolean move(char dir){
+		boolean result = shipMover.move(dir, ships);
+		return result;
 	}
 
 	public List<Ship> getShips() {

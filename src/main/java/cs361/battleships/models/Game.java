@@ -104,8 +104,19 @@ public class Game {
 
     }
 
+    public boolean move(char dir){
+        if(opponentsBoard.getNumShipsSunk() < 2)
+            return false;
+        boolean move = playersBoard.move(dir);
+        if(move)
+            return true;
+        else
+            return false;
+    }
+
     public Board getPlayersBoard(){
         return playersBoard;
     }
+    public Board getOpponentsBoard() {return  opponentsBoard;}
 
 }

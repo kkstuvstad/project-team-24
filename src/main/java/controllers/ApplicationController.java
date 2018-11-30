@@ -72,5 +72,13 @@ public class ApplicationController {
         return Results.json().render(game);
     }
 
-
+    public Result move(Context context, MoveGameAction g){
+        Game game = g.getGame();
+        char dir = g.getDir();
+        boolean result = game.move(dir);
+        if(result)
+            return Results.json().render(game);
+        else
+            return Results.badRequest();
+    }
 }

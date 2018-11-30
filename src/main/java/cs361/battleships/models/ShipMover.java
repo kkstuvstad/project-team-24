@@ -49,15 +49,16 @@ public class ShipMover {
                 newShips.add(ship);
             }
         }
-        for (int i = 0; i < ships.size(); i++){
-            ship = newShips.get(i);
-            newShips.remove(i);
-            Ship finalShip = ship;
-            if(newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip,s))){
-                newShips.add(i,ships.get(i));
-            }
-            else{
-                newShips.add(i,finalShip);
+        for(int j = 0; j < ships.size()-1; j++) {
+            for (int i = 0; i < ships.size(); i++) {
+                ship = newShips.get(i);
+                newShips.remove(i);
+                Ship finalShip = ship;
+                if (newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip, s))) {
+                    newShips.add(i, ships.get(i));
+                } else {
+                    newShips.add(i, finalShip);
+                }
             }
         }
         for(int i = 0; i < ships.size(); i++) {
@@ -91,15 +92,16 @@ public class ShipMover {
                 newShips.add(ship);
             }
         }
-        for (int i = 0; i < ships.size(); i++){
-            ship = newShips.get(i);
-            newShips.remove(i);
-            Ship finalShip = ship;
-            if(newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip,s))){
-                newShips.add(i,ships.get(i));
-            }
-            else{
-                newShips.add(i,finalShip);
+        for(int j = 0; j < ships.size()-1; j++) {
+            for (int i = 0; i < ships.size(); i++) {
+                ship = newShips.get(i);
+                newShips.remove(i);
+                Ship finalShip = ship;
+                if (newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip, s))) {
+                    newShips.add(i, ships.get(i));
+                } else {
+                    newShips.add(i, finalShip);
+                }
             }
         }
         for(int i = 0; i < ships.size(); i++){
@@ -133,15 +135,16 @@ public class ShipMover {
                 newShips.add(ship);
             }
         }
-        for (int i = 0; i < ships.size(); i++){
-            ship = newShips.get(i);
-            newShips.remove(i);
-            Ship finalShip = ship;
-            if(newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip,s))){
-                newShips.add(i,ships.get(i));
-            }
-            else{
-                newShips.add(i,finalShip);
+        for(int j = 0; j < ships.size()-1; j++) {
+            for (int i = 0; i < ships.size(); i++) {
+                ship = newShips.get(i);
+                newShips.remove(i);
+                Ship finalShip = ship;
+                if (newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip, s))) {
+                    newShips.add(i, ships.get(i));
+                } else {
+                    newShips.add(i, finalShip);
+                }
             }
         }
         for(int i = 0; i < ships.size(); i++){
@@ -175,15 +178,16 @@ public class ShipMover {
                 newShips.add(ship);
             }
         }
-        for (int i = 0; i < ships.size(); i++){
-            ship = newShips.get(i);
-            newShips.remove(i);
-            Ship finalShip = ship;
-            if(newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip,s))){
-                newShips.add(i,ships.get(i));
-            }
-            else{
-                newShips.add(i,finalShip);
+        for(int j = 0; j < ships.size()-1; j++) {
+            for (int i = 0; i < ships.size(); i++) {
+                ship = newShips.get(i);
+                newShips.remove(i);
+                Ship finalShip = ship;
+                if (newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip, s))) {
+                    newShips.add(i, ships.get(i));
+                } else {
+                    newShips.add(i, finalShip);
+                }
             }
         }
         for(int i = 0; i < ships.size(); i++){

@@ -1,6 +1,8 @@
 ﻿<#import "../layout/defaultLayout.ftl.html" as layout> 
 <@layout.myLayout "Home page">    
 
+<div class="majorGameContainer">
+
 <div class="gameContainer">
     <div class="containerGameTitle">
 <h1>The Battleship game</h1>
@@ -9,7 +11,7 @@
 
 <div class="playerTables">
     <div class="individualTable">
-        <h2>Enemy Board</h2>
+        <h2>Enemy <span id="enemyBoardName">Surface</span> Board</h2>
         <table id="opponent" class="battleGrid">
         </table>
         <div>
@@ -18,10 +20,16 @@
         <div>
             ← or → : place ship horizontally.
         </div>
+        <div class="shipPlacementPanel">
+            <div class="shipPicture" id="switch_boards">
+                <img src="https://i.imgur.com/mM4zpZE.jpg" height="30px" weight="30px"></img>
+                <div>Switch View between surface and sub board</div>
+            </div>
+        </div>
     </div>
 
     <div class="individualTable">
-        <h2>My Board</h2>
+        <h2>My <span id="playerBoardName">Surface</span> Board</h2>
         <table id="player" class="battleGrid">
         </table>
 
@@ -38,10 +46,16 @@
                 <img src="https://i.imgur.com/JhXKWWm.jpg" height="30px" weight="30px"></img>
                 <div>Place battleship</div>
             </div>
-	    <div class="sonarPulse" id="sonar_pulse">
-   		<img src="https://mbtskoudsalg.com/explore/small-black-dot-png/#gal_post_3357_small-black-dot-png-1.png" height="30px" weight="30px"></img>
-		<div>Use sonar pulse</div>
-	    </div>
+            <div class="shipPicture" id="place_submarine">
+                <img src="https://i.imgur.com/nfQDEHW.jpg" height="30px" weight="30px"></img>
+                <div>Place Submarine</div>
+            </div>
+
+            <div class="sonarPulse" id="sonar_pulse">
+                <img src="https://i.imgur.com/P18As6Z.png" height="30px" weight="30px"></img>
+                <div>Use sonar pulse</div>
+            </div>
+
         </div>
 
 
@@ -53,6 +67,61 @@
     </div>
 
 </div>
+
+</div>
+
+<div class="informationContainer">
+    <div class = "squareTutorial">
+        <table class="battleGrid">
+            <tr><td class="occupied"></td>Placed Ship</tr>
+        </table>
+
+    </div>
+    <div class = "squareTutorial">
+    <table class="battleGrid">
+        <tr><td class="captainQuarters"></td>Captain Quarter</tr>
+    </table>
+
+    </div>
+
+    <div class = "squareTutorial">
+        <table class="battleGrid">
+            <tr><td class="miss"></td>Missed Hit</tr>
+        </table>
+
+    </div>
+
+    <div class = "squareTutorial">
+        <table class="battleGrid">
+            <tr><td class="hit"></td>Hit Succeed</tr>
+        </table>
+
+    </div>
+
+    <div class = "squareTutorial">
+        <table class="battleGrid">
+            <tr><td class="sink"></td>Ship Sunk</tr>
+        </table>
+
+    </div>
+
+    <div class = "textTutorial">
+        Only submarine can be placed in the sub board. However, it can still placed at the surface of the sea.
+    </div>
+
+    <div class = "textTutorial">
+        Sonar pulse would be available after successfully sinking one enemy's ship.
+    </div>
+
+    <div class = "textTutorial">
+        Your bomb would be upgraded to space lasers once you have successfully sunk one enemy's ship. Space lasers can attack the surface board and sub board at the same time.
+    </div>
+
+    <div class = "textTutorial">
+        Once you have sunk two enemy ships, you can move your fleet by clicking the panel of moving as it pops up.
+    </div>
+
+    </div>
 
 </div>
 

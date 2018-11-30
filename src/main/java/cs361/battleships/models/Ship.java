@@ -2,41 +2,24 @@ package cs361.battleships.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.Sets;
-import com.mchange.v1.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 public class Ship {
 
-	@JsonProperty private String kind;
-	@JsonProperty private List<Square> occupiedSquares;
-	@JsonProperty private int size;
-	@JsonProperty private Square captainQuarter;
-	@JsonProperty private boolean isArmorDown = false;
+	@JsonProperty protected String kind;
+	@JsonProperty protected List<Square> occupiedSquares;
+	@JsonProperty protected int size;
+	@JsonProperty protected Square captainQuarter;
+	@JsonProperty protected boolean isArmorDown = false;
+	@JsonProperty protected boolean sunkChecked = false;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
 	}
 	
-	public Ship(String kind) {
-		this();
-		this.kind = kind;
-		switch(kind) {
-			case "MINESWEEPER":
-				size = 2;
-				break;
-			case "DESTROYER":
-				size = 3;
-				break;
-			case "BATTLESHIP":
-				size = 4;
-				break;
-		}
-	}
+
 
 	public List<Square> getOccupiedSquares() {
 		return occupiedSquares;
@@ -53,51 +36,15 @@ public class Ship {
 				occupiedSquares.add(new Square(row, (char) (col + i)));
 			}
 		}
-		//Vertical:
-		//Minesweeper: place where it is
-		//Destroyer: Place 1 block below
-		//Battleship: Place 2 blocks below
-		//Horizontal Down below:
-		//Reverse
-		if(isVertical) {
-			switch (kind) {
-				case "MINESWEEPER":
-					captainQuarter = new Square(row, col);
-					break;
-				case "DESTROYER":
-					captainQuarter = new Square(row + 1,col);
-					break;
-				case "BATTLESHIP":
-					captainQuarter = new Square(row + 2, col);
-					break;
-			}
-		}
-		else{
-			switch (kind) {
-				case "MINESWEEPER":
-					captainQuarter = new Square(row, col);
-					break;
-				case "DESTROYER":
-					captainQuarter = new Square(row, (char) (col + 1));
-					break;
-				case "BATTLESHIP":
-					captainQuarter = new Square(row, (char) (col + 2));
-					break;
-			}
-		}
+		placeCaptainQuarter(col, row, isVertical);
 
 	}
 
-	public boolean overlaps(Ship other) {
-		Set<Square> thisSquares = Set.copyOf(getOccupiedSquares());
-		Set<Square> otherSquares = Set.copyOf(other.getOccupiedSquares());
-		Sets.SetView<Square> intersection = Sets.intersection(thisSquares, otherSquares);
-		return intersection.size() != 0;
+	public void placeCaptainQuarter(char col, int row, boolean isVertical){
+
 	}
 
-	public boolean isAtLocation(Square location) {
-		return getOccupiedSquares().stream().anyMatch(s -> s.equals(location));
-	}
+
 
 	public String getKind() {
 		return kind;
@@ -166,5 +113,11 @@ public class Ship {
 	@Override
 	public String toString() {
 		return kind + occupiedSquares.toString();
+	}
+
+	public boolean isSunkChecked() {return sunkChecked;}
+
+	public void checkSunk() {
+		sunkChecked = true;
 	}
 }

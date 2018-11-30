@@ -2,7 +2,13 @@ var isSetup = true;
 var placedShips = 0;
 var game;
 var shipType;
+var sonar = false;
+var numSonars = 0;
+var maxShip = 4;
+var playerTotalNumSink = 0;
+var opponentTotalNumSink = 0;
 var vertical;
+var isSubView = false;
 
 function makeGrid(table, isPlayer) {
     for (i=0; i<10; i++) {
@@ -18,18 +24,30 @@ function makeGrid(table, isPlayer) {
 }
 
 function markHits(board, elementId, surrenderText) {
+    board.sonars.forEach((sonar) => {
+        let Name;
+        if (sonar.result === "EMPTY"){
+            Name = "empty"
+        }
+        else if (sonar.result === "OCCUPIED"){
+            Name = "occupied";
+        }
+        document.getElementById(elementId).rows[sonar.location.row-1].cells[sonar.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(Name);
+    });
     board.attacks.forEach((attack) => {
         let className;
-        if (attack.result === "MISS")
+        if (attack.result === "MISS"){
+            document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("captainQuarters");
             className = "miss";
+            }
         else if (attack.result === "HIT")
             className = "hit";
-        else if (attack.result === "SUNK")
+        else if (attack.result === "SUNK"){
+            document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("captainQuarters");
             className = "sink"
-            //refreshOpponentGrid();
+            }
         else if (attack.result === "SURRENDER"){
             className = "sink"
-            alert(surrenderText);
         }
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
     });
@@ -43,6 +61,14 @@ function refreshOpponentGrid(){
 }
 
 function redrawGrid() {
+    if(isSubView){
+        var boardP = game.playersSubBoard;
+        var boardO = game.opponentsSubBoard;
+    }
+    else{
+        var boardP = game.playersBoard;
+        var boardO = game.opponentsBoard;
+    }
     Array.from(document.getElementById("opponent").childNodes).forEach((row) => row.remove());
     Array.from(document.getElementById("player").childNodes).forEach((row) => row.remove());
     makeGrid(document.getElementById("opponent"), false);
@@ -51,15 +77,23 @@ function redrawGrid() {
         return;
     }
 
-    game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
+    boardP.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
     //Change the styling of player's captainquarters to green
-    game.playersBoard.ships.forEach((ship) => {document.getElementById("player").rows[ship.captainQuarter.row-1].cells[ship.captainQuarter.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("occupied");
-                                                document.getElementById("player").rows[ship.captainQuarter.row-1].cells[ship.captainQuarter.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("captainQuarters");
+    boardP.ships.forEach((ship) => {document.getElementById("player").rows[ship.captainQuarter.row-1].cells[ship.captainQuarter.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("occupied");
+                                    document.getElementById("player").rows[ship.captainQuarter.row-1].cells[ship.captainQuarter.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("captainQuarters");
      });
-    markHits(game.opponentsBoard, "opponent", "You won the game");
-    markHits(game.playersBoard, "player", "You lost the game");
+    markHits(boardO, "opponent", "You won the game");
+
+
+    if(game.opponentsSubBoard.numShipsSunk + game.opponentsBoard.numShipsSunk == maxShip){
+        alert("You won the game");
+    }
+    markHits(boardP, "player", "You lost the game");
+    if(game.playersSubBoard.numShipsSunk + game.playersBoard.numShipsSunk == maxShip){
+            alert("You lost the game");
+     }
 }
 
 var oldListener;
@@ -88,11 +122,11 @@ function cellDrop(){
     let row = this.parentNode.rowIndex + 1;
     let col = String.fromCharCode(this.cellIndex + 65);
     if (isSetup) {
-        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
+        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical,isSubBoard:isSubView}, function(data) {
             game = data;
             redrawGrid();
             placedShips++;
-            if (placedShips == 3) {
+            if (placedShips == maxShip) {
                 isSetup = false;
                 registerCellListener((e) => {});
             }
@@ -106,22 +140,36 @@ function cellClick() {
     let row = this.parentNode.rowIndex + 1;
     let col = String.fromCharCode(this.cellIndex + 65);
     if (isSetup) {
-        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
+        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical, isSubBoard:isSubView}, function(data) {
             game = data;
+            //game.playersBoard.ships[placedShips]['@type'] = shipType.charAt(0) + shipType.slice(1).toLowerCase();
+            //game.opponentsBoard.ships[placedShips]['@type'] = shipType.charAt(0) + shipType.slice(1).toLowerCase();
             redrawGrid();
             placedShips++;
-            if (placedShips == 3) {
+            if (placedShips == maxShip) {
                 isSetup = false;
                 registerCellListener((e) => {});
             }
         });
     } else {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
-            game = data;
-            //when player clicks attack,
-            redrawGrid();
-            //refreshOpponentGrid();
-        });
+        if (sonar){
+            if(numSonars < 2){
+                sendXhr("POST", "/sonar", {game: game, x: row, y: col}, function(data) {
+                    game = data;
+                    redrawGrid();
+                    numSonars++;
+                });
+            }
+            sonar = false;
+        }
+        else{
+            sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
+                game = data;
+                //when player clicks attack,
+                redrawGrid();
+                //refreshOpponentGrid();
+            });
+        }
     }
 }
 
@@ -168,6 +216,11 @@ function place(size) {
     }
 }
 
+document.getElementById("sonar_pulse").addEventListener("click",function(e) {
+    sonar = true;
+    });
+
+
 function initGame() {
     makeGrid(document.getElementById("opponent"), false);
     makeGrid(document.getElementById("player"), true);
@@ -183,6 +236,10 @@ function initGame() {
         shipType = "BATTLESHIP";
        registerCellListener(place(4));
     });
+    document.getElementById("place_submarine").addEventListener("click", function(e) {
+           shipType = "SUBMARINE";
+           registerCellListener(place(4));
+     });
     document.getElementById("place_minesweeper").addEventListener("dragstart", function(e) {
         e.preventDefault();
         isDragged = true;
@@ -200,6 +257,18 @@ function initGame() {
         isDragged = true;
         shipType = "BATTLESHIP";
         registerCellListener(place(4));
+    });
+    document.getElementById("switch_boards").addEventListener("click",function(e){
+        if(isSubView){
+            document.getElementById("enemyBoardName").textContent = "Surface";
+            document.getElementById("playerBoardName").textContent = "Surface";
+        }
+        else{
+            document.getElementById("enemyBoardName").textContent = "Sub";
+            document.getElementById("playerBoardName").textContent = "Sub";
+        }
+        isSubView = !isSubView;
+        redrawGrid();
     });
     sendXhr("GET", "/game", {}, function(data) {
         game = data;

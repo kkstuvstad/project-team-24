@@ -40,26 +40,31 @@ public class ShipMover {
             }
             if(newSquares.stream().anyMatch(s -> s.isOutOfBounds())){
                 ship.setOccupiedSquares(ships.get(i).getOccupiedSquares());
+                ship.setCaptainQuarter(ships.get(i).getCaptainQuarter());
                 newShips.add(ship);
             }
             else{
                 ship.setOccupiedSquares(newSquares);
+                ship.setCaptainQuarter(new Square(ships.get(i).getCaptainQuarter().getRow()-1,ships.get(i).getCaptainQuarter().getColumn()));
                 newShips.add(ship);
             }
         }
-        for (int i = 0; i < ships.size(); i++){
-            ship = newShips.get(i);
-            newShips.remove(i);
-            Ship finalShip = ship;
-            if(newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip,s))){
-                newShips.add(i,ships.get(i));
-            }
-            else{
-                newShips.add(i,finalShip);
+        for(int j = 0; j < ships.size()-1; j++) {
+            for (int i = 0; i < ships.size(); i++) {
+                ship = newShips.get(i);
+                newShips.remove(i);
+                Ship finalShip = ship;
+                if (newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip, s))) {
+                    newShips.add(i, ships.get(i));
+                } else {
+                    newShips.add(i, finalShip);
+                }
             }
         }
-        for(int i = 0; i < ships.size(); i++)
+        for(int i = 0; i < ships.size(); i++) {
             ships.get(i).setOccupiedSquares(newShips.get(i).getOccupiedSquares());
+            ships.get(i).setCaptainQuarter(newShips.get(i).getCaptainQuarter());
+        }
         return true;
     }
 
@@ -78,26 +83,31 @@ public class ShipMover {
             }
             if(newSquares.stream().anyMatch(s -> s.isOutOfBounds())){
                 ship.setOccupiedSquares(ships.get(i).getOccupiedSquares());
+                ship.setCaptainQuarter(ships.get(i).getCaptainQuarter());
                 newShips.add(ship);
             }
             else{
                 ship.setOccupiedSquares(newSquares);
+                ship.setCaptainQuarter(new Square(ships.get(i).getCaptainQuarter().getRow()+1,ships.get(i).getCaptainQuarter().getColumn()));
                 newShips.add(ship);
             }
         }
-        for (int i = 0; i < ships.size(); i++){
-            ship = newShips.get(i);
-            newShips.remove(i);
-            Ship finalShip = ship;
-            if(newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip,s))){
-                newShips.add(i,ships.get(i));
-            }
-            else{
-                newShips.add(i,finalShip);
+        for(int j = 0; j < ships.size()-1; j++) {
+            for (int i = 0; i < ships.size(); i++) {
+                ship = newShips.get(i);
+                newShips.remove(i);
+                Ship finalShip = ship;
+                if (newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip, s))) {
+                    newShips.add(i, ships.get(i));
+                } else {
+                    newShips.add(i, finalShip);
+                }
             }
         }
-        for(int i = 0; i < ships.size(); i++)
+        for(int i = 0; i < ships.size(); i++){
             ships.get(i).setOccupiedSquares(newShips.get(i).getOccupiedSquares());
+            ships.get(i).setCaptainQuarter(newShips.get(i).getCaptainQuarter());
+        }
         return true;
     }
 
@@ -116,26 +126,31 @@ public class ShipMover {
             }
             if(newSquares.stream().anyMatch(s -> s.isOutOfBounds())){
                 ship.setOccupiedSquares(ships.get(i).getOccupiedSquares());
+                ship.setCaptainQuarter(ships.get(i).getCaptainQuarter());
                 newShips.add(ship);
             }
             else{
                 ship.setOccupiedSquares(newSquares);
+                ship.setCaptainQuarter(new Square(ships.get(i).getCaptainQuarter().getRow(),(char)(ships.get(i).getCaptainQuarter().getColumn()-1)));
                 newShips.add(ship);
             }
         }
-        for (int i = 0; i < ships.size(); i++){
-            ship = newShips.get(i);
-            newShips.remove(i);
-            Ship finalShip = ship;
-            if(newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip,s))){
-                newShips.add(i,ships.get(i));
-            }
-            else{
-                newShips.add(i,finalShip);
+        for(int j = 0; j < ships.size()-1; j++) {
+            for (int i = 0; i < ships.size(); i++) {
+                ship = newShips.get(i);
+                newShips.remove(i);
+                Ship finalShip = ship;
+                if (newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip, s))) {
+                    newShips.add(i, ships.get(i));
+                } else {
+                    newShips.add(i, finalShip);
+                }
             }
         }
-        for(int i = 0; i < ships.size(); i++)
+        for(int i = 0; i < ships.size(); i++){
             ships.get(i).setOccupiedSquares(newShips.get(i).getOccupiedSquares());
+            ships.get(i).setCaptainQuarter(newShips.get(i).getCaptainQuarter());
+        }
         return true;
     }
 
@@ -154,26 +169,31 @@ public class ShipMover {
             }
             if(newSquares.stream().anyMatch(s -> s.isOutOfBounds())){
                 ship.setOccupiedSquares(ships.get(i).getOccupiedSquares());
+                ship.setCaptainQuarter(ships.get(i).getCaptainQuarter());
                 newShips.add(ship);
             }
             else{
                 ship.setOccupiedSquares(newSquares);
+                ship.setCaptainQuarter(new Square(ships.get(i).getCaptainQuarter().getRow(),(char)(ships.get(i).getCaptainQuarter().getColumn()+1)));
                 newShips.add(ship);
             }
         }
-        for (int i = 0; i < ships.size(); i++){
-            ship = newShips.get(i);
-            newShips.remove(i);
-            Ship finalShip = ship;
-            if(newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip,s))){
-                newShips.add(i,ships.get(i));
-            }
-            else{
-                newShips.add(i,finalShip);
+        for(int j = 0; j < ships.size()-1; j++) {
+            for (int i = 0; i < ships.size(); i++) {
+                ship = newShips.get(i);
+                newShips.remove(i);
+                Ship finalShip = ship;
+                if (newShips.stream().anyMatch(s -> GameHelper.overlaps(finalShip, s))) {
+                    newShips.add(i, ships.get(i));
+                } else {
+                    newShips.add(i, finalShip);
+                }
             }
         }
-        for(int i = 0; i < ships.size(); i++)
+        for(int i = 0; i < ships.size(); i++){
             ships.get(i).setOccupiedSquares(newShips.get(i).getOccupiedSquares());
+            ships.get(i).setCaptainQuarter(newShips.get(i).getCaptainQuarter());
+        }
         return true;
     }
 }

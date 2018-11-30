@@ -29,6 +29,8 @@ public class Ship {
 
 	public Square getCaptainQuarter(){return captainQuarter;}
 
+	public void setCaptainQuarter(Square s){captainQuarter = s;}
+
 	//TODO : place the captainquarter
 	public void place(char col, int row, boolean isVertical) {
 		for (int i=0; i<size; i++) {

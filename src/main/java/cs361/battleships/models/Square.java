@@ -18,6 +18,12 @@ public class Square {
 		this.column = column;
 	}
 
+	public Square(int row, char column, boolean hit){
+		this.row = row;
+		this.column = column;
+		this.hit = hit;
+	}
+
 	public char getColumn() {
 		return column;
 	}

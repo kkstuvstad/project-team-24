@@ -25,6 +25,8 @@ public class Ship {
 		return occupiedSquares;
 	}
 
+	public void setOccupiedSquares(List<Square> squares){occupiedSquares = squares;}
+
 	public Square getCaptainQuarter(){return captainQuarter;}
 
 	//TODO : place the captainquarter

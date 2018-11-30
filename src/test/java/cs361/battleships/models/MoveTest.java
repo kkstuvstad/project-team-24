@@ -35,6 +35,7 @@ public class MoveTest {
     @Test
     public void testMove(){
         game.getOpponentsBoard().numShipsSunk = 2;
+        assertFalse(game.move('q'));
         game.getPlayersBoard().placeShip(factory.getShip("BATTLESHIP"),9,'B',false);
         game.getPlayersBoard().placeShip(factory.getShip("DESTROYER"),1,'A',false);
         game.getPlayersBoard().placeShip(factory.getShip("MINESWEEPER"),5,'D',false);
@@ -54,11 +55,23 @@ public class MoveTest {
         assertTrue(game.getPlayersBoard().getShips().get(3).getOccupiedSquares().get(2).getRow() == 5);
         assertTrue(game.getPlayersBoard().getShips().get(3).getOccupiedSquares().get(3).getRow() == 5);
         assertTrue(game.getPlayersBoard().getShips().get(3).getOccupiedSquares().get(4).getRow() == 6);
+
+        assertTrue(game.getPlayersBoard().getShips().get(0).getCaptainQuarter().getRow() == 8);
+        assertTrue(game.getPlayersBoard().getShips().get(1).getCaptainQuarter().getRow() == 1);
+        assertTrue(game.getPlayersBoard().getShips().get(2).getCaptainQuarter().getRow() == 4);
+        assertTrue(game.getPlayersBoard().getShips().get(3).getCaptainQuarter().getRow() == 5);
         game.move('r');
         assertTrue(game.getPlayersBoard().getShips().get(0).getOccupiedSquares().get(0).getColumn() == 'C');
         assertTrue(game.getPlayersBoard().getShips().get(1).getOccupiedSquares().get(0).getColumn() == 'B');
         assertTrue(game.getPlayersBoard().getShips().get(2).getOccupiedSquares().get(0).getColumn() == 'E');
         assertTrue(game.getPlayersBoard().getShips().get(3).getOccupiedSquares().get(0).getColumn() == 'G');
+
+        assertTrue(game.getPlayersBoard().getShips().get(0).getCaptainQuarter().getColumn() == 'E');
+        assertTrue(game.getPlayersBoard().getShips().get(1).getCaptainQuarter().getColumn() == 'C');
+        assertTrue(game.getPlayersBoard().getShips().get(2).getCaptainQuarter().getColumn() == 'E');
+        assertTrue(game.getPlayersBoard().getShips().get(3).getCaptainQuarter().getColumn() == 'J');
+
+        assertFalse(game.move('u'));
     }
 
     @Test public void testCollision(){

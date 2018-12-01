@@ -11,11 +11,13 @@ public class BoardTest {
 
     private Board board;
     private ShipFactory factory;
+    private SubBoard subBoard;
 
     @Before
     public void setUp() {
         board = new Board();
         factory = new ShipFactory();
+        subBoard = new SubBoard();
     }
 
     @Test
@@ -84,5 +86,18 @@ public class BoardTest {
         assertFalse(board.placeShip(factory.getShip("MINESWEEPER"), 8, 'A', false));
 
     }
+
+    @Test
+    public void testPlaceMoreThan1ShipForSubBoard(){
+        assertTrue(subBoard.placeShip(factory.getShip("SUBMARINE"),5,'D',false));
+        assertFalse(subBoard.placeShip(factory.getShip("MINESWEEPER"),8,'A',false));
+    }
+
+    @Test
+    public void testCantPlaceNormalShipOnSubBoard(){
+        assertFalse(subBoard.placeShip(factory.getShip("DESTROYER"),5,'D',false));
+    }
+
+
 
 }

@@ -216,6 +216,42 @@ function place(size) {
     }
 }
 
+document.getElementById("north").addEventListener("click",function(e) {
+    if(!isSetup){
+        sendXhr("POST", "/move", {game: game, dir: 'u'}, function(data) {
+            game = data;
+            redrawGrid();
+        });
+    }
+});
+
+document.getElementById("south").addEventListener("click",function(e) {
+    if(!isSetup){
+        sendXhr("POST", "/move", {game: game, dir: 'd'}, function(data) {
+            game = data;
+            redrawGrid();
+        });
+    }
+});
+
+document.getElementById("east").addEventListener("click",function(e) {
+    if(!isSetup){
+        sendXhr("POST", "/move", {game: game, dir: 'r'}, function(data) {
+            game = data;
+            redrawGrid();
+        });
+    }
+});
+
+document.getElementById("west").addEventListener("click",function(e) {
+    if(!isSetup){
+        sendXhr("POST", "/move", {game: game, dir: 'l'}, function(data) {
+            game = data;
+            redrawGrid();
+        });
+    }
+});
+
 document.getElementById("sonar_pulse").addEventListener("click",function(e) {
     sonar = true;
     });

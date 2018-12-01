@@ -10,6 +10,8 @@ public class Game {
     @JsonProperty private Board opponentsBoard = new Board();
     @JsonProperty private SubBoard playersSubBoard = new SubBoard();
     @JsonProperty private SubBoard opponentsSubBoard = new SubBoard();
+    private ShipMover shipMover = new ShipMover();
+    @JsonProperty private int numMoves = 0;
 
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -104,8 +106,28 @@ public class Game {
 
     }
 
+    public boolean move(char dir){
+        if(numMoves > 1)
+            return false;
+        if(opponentsBoard.getNumShipsSunk() + opponentsSubBoard.getNumShipsSunk() < 2)
+            return false;
+        boolean move = shipMover.move(dir, playersBoard.getShips());
+        if(move) {
+            move = shipMover.move(dir,playersSubBoard.getShips());
+            if(move) {
+                numMoves++;
+                return true;
+            }
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
     public Board getPlayersBoard(){
         return playersBoard;
     }
+    public Board getOpponentsBoard() {return  opponentsBoard;}
 
 }

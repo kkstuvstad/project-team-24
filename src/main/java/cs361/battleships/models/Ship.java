@@ -25,7 +25,11 @@ public class Ship {
 		return occupiedSquares;
 	}
 
+	public void setOccupiedSquares(List<Square> squares){occupiedSquares = squares;}
+
 	public Square getCaptainQuarter(){return captainQuarter;}
+
+	public void setCaptainQuarter(Square s){captainQuarter = s;}
 
 	//TODO : place the captainquarter
 	public void place(char col, int row, boolean isVertical) {
